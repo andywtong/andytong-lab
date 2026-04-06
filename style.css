@@ -157,3 +157,92 @@ body {
 /* --- UTILS --- */
 .pulse { animation: blink 1s infinite; }
 @keyframes blink { 50% { opacity: 0; } }
+
+/* --- SCROLL DEPTH LOGIC --- */
+
+/* This creates the "Background Stay" effect for Section 2 */
+.sticky-section {
+    position: sticky;
+    top: 20px;
+    z-index: -1; /* Sits behind following sections */
+    opacity: 0.5;
+    filter: blur(2px);
+    transition: filter 0.5s;
+}
+
+/* When we scroll further, Section 3 will slide over Section 2 */
+.tactile-zone {
+    position: relative;
+    z-index: 2;
+    margin-top: 10vh; /* Space to see the sticky section behind it */
+    box-shadow: 0 -50px 100px rgba(0,0,0,0.8);
+}
+
+/* --- POP-OUT ELEMENTS --- */
+
+/* The floating cube in the Kinetic Zone */
+.floating-cube {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: #ff3e00;
+    right: -30px; /* Pops out of the right side */
+    top: -20px;   /* Pops out of the top */
+    transform: rotate(45deg);
+    z-index: 10;
+    box-shadow: 20px 20px 60px rgba(255, 62, 0, 0.4);
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: rotate(45deg) translateY(0); }
+    50% { transform: rotate(50deg) translateY(-20px); }
+}
+
+/* The Marquee that breaks the Brutalist container */
+.marquee-breaker {
+    position: absolute;
+    top: 10%;
+    left: -10%; /* Breaks out the left side */
+    width: 120%; /* Breaks out the right side */
+    background: #ffff00;
+    color: #000;
+    padding: 10px 0;
+    font-weight: 900;
+    transform: rotate(-3deg);
+    white-space: nowrap;
+    overflow: hidden;
+    z-index: 5;
+    border-top: 4px solid #000;
+    border-bottom: 4px solid #000;
+}
+
+/* --- REFINING SPATIAL DEPTH --- */
+
+.spatial-zone {
+    perspective: 1000px; /* Required for 3D "Pop" */
+}
+
+.depth-card {
+    transition: transform 0.5s ease;
+    transform: translateZ(20px); /* Lifts it toward the viewer */
+}
+
+.spatial-zone:hover .depth-card {
+    transform: translateZ(50px) rotateX(5deg); /* Pops out more on hover */
+}
+
+/* --- CLEANING UP THE REST --- */
+
+/* Adjusting container for better scroll spacing */
+.container {
+    padding-bottom: 20vh;
+}
+
+.chamber {
+    /* Ensuring sections have enough "heft" to slide over each other */
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
