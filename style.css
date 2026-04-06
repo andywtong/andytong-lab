@@ -1,11 +1,95 @@
-body {
-    background-color: #001100; /* Deep Matrix Green */
-    color: #00ff41;           /* Terminal Green */
-    font-family: 'JetBrains Mono', monospace;
-    padding: 3rem;
+:root {
+    --chip-bg: #0a0a0a;
+    --trace-green: #00ff41;
+    --solder-mask: #001a00;
 }
 
-h1 {
-    border-bottom: 2px solid #00ff41;
-    display: inline-block;
+body {
+    background-color: var(--chip-bg);
+    color: var(--trace-green);
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.container {
+    max-width: 700px;
+}
+
+.module {
+    border: 1px solid var(--trace-green);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    background: rgba(0, 40, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Section 1 Motion: The Fade-In Slide */
+.hardware-init {
+    animation: slideIn 1.2s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.blurb {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.highlight {
+    background: var(--trace-green);
+    color: var(--chip-bg);
+    padding: 0 5px;
+}
+
+/* Section 2 Style: The Circuit Trace */
+.project-trace {
+    border-style: dashed;
+}
+
+.trace-list {
+    list-style: none;
+    padding: 0;
+}
+
+.trace-list li {
+    margin: 10px 0;
+    padding-left: 10px;
+    border-left: 2px solid var(--trace-green);
+}
+
+.trace-id {
+    opacity: 0.5;
+    margin-right: 10px;
+}
+
+/* The "Scanner" Motion for Section 2 */
+.project-trace::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--trace-green);
+    box-shadow: 0 0 15px var(--trace-green);
+    animation: scan 4s linear infinite;
+}
+
+@keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+.pulse {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
 }
