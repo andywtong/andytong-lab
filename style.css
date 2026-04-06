@@ -1,7 +1,11 @@
-/* --- BASE RESET --- */
+/* --- GLOBAL CONFIG --- */
 :root {
     --chip-bg: #0a0a0a;
     --trace-green: #00ff41;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -13,15 +17,15 @@ body {
     display: flex;
     justify-content: center;
     padding: 40px 20px;
+    overflow-x: hidden;
 }
 
 .container { max-width: 800px; width: 100%; }
 
 .module, .chamber {
-    padding: 3rem 2rem;
-    margin-bottom: 4rem;
+    padding: 4rem 2rem;
+    margin-bottom: 6rem;
     position: relative;
-    overflow: hidden;
 }
 
 .zone-label {
@@ -38,11 +42,15 @@ body {
     color: var(--trace-green);
 }
 
-.hardware-init { animation: slideIn 1s ease-out; }
-@keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.sticky-section {
+    position: sticky;
+    top: 20px;
+    z-index: -1; 
+    opacity: 0.5;
+    filter: blur(1px);
+}
 
 .highlight { background: var(--trace-green); color: #000; padding: 0 5px; }
-.project-trace { border-style: dashed; }
 .trace-list { list-style: none; margin: 20px 0; }
 .trace-list li { border-left: 2px solid var(--trace-green); padding-left: 10px; margin: 5px 0; }
 
@@ -53,12 +61,14 @@ body {
 }
 @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
 
-/* --- SECTION 3: TACTILE ZONE (Organic/Squishy) --- */
+/* --- SECTION 3: TACTILE ZONE --- */
 .tactile-zone {
     background: #111;
     border-radius: 40px;
     color: #e0e0e0;
     text-align: center;
+    z-index: 2;
+    box-shadow: 0 -50px 100px rgba(0,0,0,0.9);
 }
 
 .squishy-btn {
@@ -74,232 +84,69 @@ body {
     box-shadow: 0 10px 0 #444;
 }
 
-.squishy-btn:hover { transform: scale(1.1) rotate(-1deg); box-shadow: 0 15px 0 #333; }
 .squishy-btn:active { transform: scale(0.95) translateY(10px); box-shadow: 0 0 0 #333; }
 
-/* --- SECTION 4: KINETIC ZONE (Fluid Typography) --- */
-.kinetic-zone {
-    background: #000;
-    font-family: 'Inter', sans-serif;
+/* --- SECTION 4: KINETIC ZONE --- */
+.kinetic-zone { background: #000; font-family: 'Inter', sans-serif; overflow: visible; }
+
+.floating-cube {
+    position: absolute; width: 80px; height: 80px; background: #ff3e00;
+    right: -20px; top: -20px; transform: rotate(45deg); z-index: 10;
+    animation: float 6s ease-in-out infinite;
 }
+@keyframes float { 50% { transform: rotate(55deg) translateY(-20px); } }
 
 .variable-text {
     font-size: clamp(3rem, 10vw, 6rem);
-    font-weight: 400;
-    text-transform: uppercase;
     transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
     cursor: crosshair;
 }
+.variable-text:hover { font-weight: 900; letter-spacing: 15px; color: #ff3e00; }
 
-.variable-text:hover {
-    font-weight: 900;
-    letter-spacing: 20px;
-    color: #ff3e00;
-}
+/* --- SECTION 5: BRUTALIST ZONE --- */
+.brutalist-zone { background: #f0f0f0; color: #000; font-family: 'Space Mono', monospace; overflow: hidden;}
 
-/* --- SECTION 5: BRUTALIST ZONE (Raw/Anti-Design) --- */
-.brutalist-zone {
-    background: #f0f0f0;
-    color: #000;
-    font-family: 'Space Mono', monospace;
-}
-
-.chaos-title {
-    font-size: 5rem;
-    letter-spacing: -8px;
-    line-height: 0.8;
-    margin-bottom: 2rem;
+.marquee-breaker {
+    position: absolute; top: 15%; left: -10%; width: 120%; background: #ffff00;
+    color: #000; padding: 10px 0; font-weight: 900; transform: rotate(-3deg);
+    white-space: nowrap; border: 3px solid #000; z-index: 5;
 }
 
 .overlapping-content {
-    background: #000;
-    color: #fff;
-    padding: 2rem;
-    width: 105%;
-    margin-left: -5%;
-    transform: rotate(-1deg);
+    background: #000; color: #fff; padding: 2rem; width: 105%; margin-left: -2.5%;
+    transform: rotate(1deg); position: relative; z-index: 6;
 }
 
-.brutalist-block {
-    display: inline-block;
-    border: 4px solid #000;
-    background: #ffff00;
-    color: #000;
-    padding: 10px 20px;
-    margin-top: 20px;
-    font-weight: 700;
-    box-shadow: 10px 10px 0px #000;
-}
-
-/* --- SECTION 6: SPATIAL ZONE (Liquid Glass) --- */
-.spatial-zone {
-    background: radial-gradient(circle at top left, #1a1a2e, #000);
-    border-radius: 20px;
-}
+/* --- SECTION 6: SPATIAL ZONE --- */
+.spatial-zone { background: radial-gradient(circle at top left, #1a1a2e, #000); border-radius: 20px; perspective: 1000px; }
 
 .glass-container {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 3rem;
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1); padding: 3rem; border-radius: 20px;
 }
 
 .depth-card {
     background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
-    padding: 1rem;
-    border-radius: 10px;
-    margin-top: 2rem;
-    box-shadow: 20px 20px 40px rgba(0,0,0,0.5);
+    padding: 1.5rem; border-radius: 10px; margin-top: 2rem; transition: transform 0.5s;
 }
+.spatial-zone:hover .depth-card { transform: translateZ(50px) rotateX(5deg); }
 
-/* --- UTILS --- */
-.pulse { animation: blink 1s infinite; }
-@keyframes blink { 50% { opacity: 0; } }
-
-/* --- SCROLL DEPTH LOGIC --- */
-
-/* This creates the "Background Stay" effect for Section 2 */
-.sticky-section {
-    position: sticky;
-    top: 20px;
-    z-index: -1; /* Sits behind following sections */
-    opacity: 0.5;
-    filter: blur(2px);
-    transition: filter 0.5s;
-}
-
-/* When we scroll further, Section 3 will slide over Section 2 */
-.tactile-zone {
-    position: relative;
-    z-index: 2;
-    margin-top: 10vh; /* Space to see the sticky section behind it */
-    box-shadow: 0 -50px 100px rgba(0,0,0,0.8);
-}
-
-/* --- POP-OUT ELEMENTS --- */
-
-/* The floating cube in the Kinetic Zone */
-.floating-cube {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background: #ff3e00;
-    right: -30px; /* Pops out of the right side */
-    top: -20px;   /* Pops out of the top */
-    transform: rotate(45deg);
-    z-index: 10;
-    box-shadow: 20px 20px 60px rgba(255, 62, 0, 0.4);
-    animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: rotate(45deg) translateY(0); }
-    50% { transform: rotate(50deg) translateY(-20px); }
-}
-
-/* The Marquee that breaks the Brutalist container */
-.marquee-breaker {
-    position: absolute;
-    top: 10%;
-    left: -10%; /* Breaks out the left side */
-    width: 120%; /* Breaks out the right side */
-    background: #ffff00;
-    color: #000;
-    padding: 10px 0;
-    font-weight: 900;
-    transform: rotate(-3deg);
-    white-space: nowrap;
-    overflow: hidden;
-    z-index: 5;
-    border-top: 4px solid #000;
-    border-bottom: 4px solid #000;
-}
-
-/* --- REFINING SPATIAL DEPTH --- */
-
-.spatial-zone {
-    perspective: 1000px; /* Required for 3D "Pop" */
-}
-
-.depth-card {
-    transition: transform 0.5s ease;
-    transform: translateZ(20px); /* Lifts it toward the viewer */
-}
-
-.spatial-zone:hover .depth-card {
-    transform: translateZ(50px) rotateX(5deg); /* Pops out more on hover */
-}
-
-/* --- CLEANING UP THE REST --- */
-
-/* Adjusting container for better scroll spacing */
-.container {
-    padding-bottom: 20vh;
-}
-
-.chamber {
-    /* Ensuring sections have enough "heft" to slide over each other */
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-/* --- SECTION 7: THE DATA UPLINK --- */
-.contact-uplink {
-    background: #000;
-    text-align: center;
-    border-top: 1px solid #333;
-    padding-bottom: 10rem; /* Give it space at the end */
-}
+/* --- SECTION 7: CONTACT --- */
+.contact-uplink { background: #000; text-align: center; border-top: 1px solid #222; padding-bottom: 8rem; }
 
 .decrypt-box {
-    position: relative;
-    display: inline-block;
-    background: #000;
-    border: 2px solid var(--trace-green);
-    padding: 1.5rem 3.5rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--trace-green);
-    cursor: pointer;
-    overflow: hidden;
-    margin-top: 2rem;
-    transition: all 0.3s ease;
+    position: relative; display: inline-block; border: 2px solid var(--trace-green);
+    padding: 1rem 2rem; font-size: 1.2rem; color: var(--trace-green); cursor: pointer;
+    overflow: hidden; margin-top: 1rem;
 }
-
-.decrypt-box:hover {
-    background: var(--trace-green);
-    color: #000;
-    box-shadow: 0 0 30px rgba(0, 255, 65, 0.4);
-}
-
-.scrambled {
-    letter-spacing: 2px;
-}
+.decrypt-box:hover { background: var(--trace-green); color: #000; }
 
 .glitch-line {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
+    position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
     background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
     animation: sweep 3s infinite;
 }
+@keyframes sweep { 50% { left: 100%; } 100% { left: 100%; } }
 
-@keyframes sweep {
-    0% { left: -100%; }
-    50% { left: 100%; }
-    100% { left: 100%; }
-}
-
-.instruction {
-    font-size: 0.7rem;
-    margin-top: 1rem;
-    letter-spacing: 4px;
-    opacity: 0.5;
-}
+.pulse { animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0; } }

@@ -38,7 +38,8 @@
     </section>
 
     <section class="chamber kinetic-zone">
-        <div class="floating-cube"></div> <div class="zone-label">EXPERIMENTAL_UNIT_02</div>
+        <div class="floating-cube"></div> 
+        <div class="zone-label">EXPERIMENTAL_UNIT_02</div>
         <h2>Typography Reactor</h2>
         <h3 class="variable-text">FLUID</h3>
     </section>
@@ -61,16 +62,47 @@
     </section>
 
     <section class="chamber contact-uplink">
-    <div class="zone-label">ESTABLISH_UPLINK</div>
-    <h2>Contact Principal Investigator</h2>
-    <div class="decrypt-box" onclick="decryptEmail()">
-        <span id="email-text" class="scrambled">andywtong@gmail.com</span>
-        <div class="glitch-line"></div>
-    </div>
-    <p class="instruction">CLICK TO ESTABLISH SECURE CONNECTION</p>
-</section>
+        <div class="zone-label">ESTABLISH_UPLINK</div>
+        <h2>Contact Principal Investigator</h2>
+        <div class="decrypt-box" onclick="decryptEmail()">
+            <span id="email-text" class="scrambled">andywtong@gmail.com</span>
+            <div class="glitch-line"></div>
+        </div>
+        <p class="instruction">CLICK TO ESTABLISH SECURE CONNECTION</p>
+    </section>
 
 </div>  
+
+<script>
+function decryptEmail() {
+    const email = "andywtong@gmail.com";
+    const display = document.getElementById('email-text');
+    const chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ1234567890@#$%&";
+    let iterations = 0;
+    
+    // Check if already decrypted to prevent re-triggering
+    if (display.innerText === email) return;
+
+    const interval = setInterval(() => {
+        display.innerText = email
+            .split("")
+            .map((letter, index) => {
+                if (index < iterations) {
+                    return email[index];
+                }
+                return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join("");
+        
+        if (iterations >= email.length) {
+            clearInterval(interval);
+            display.innerHTML = `<a href="mailto:${email}" style="color: inherit; text-decoration: none;">${email}</a>`;
+        }
+        
+        iterations += 1/3; 
+    }, 30);
+}
+</script>
 
 </body>
 </html>
