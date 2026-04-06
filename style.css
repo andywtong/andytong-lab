@@ -1,0 +1,11 @@
+body {
+    background-color: #001100; /* Deep Matrix Green */
+    color: #00ff41;           /* Terminal Green */
+    font-family: 'JetBrains Mono', monospace;
+    padding: 3rem;
+}
+
+h1 {
+    border-bottom: 2px solid #00ff41;
+    display: inline-block;
+}
