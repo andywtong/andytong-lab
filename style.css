@@ -1,95 +1,159 @@
+/* --- BASE RESET --- */
 :root {
     --chip-bg: #0a0a0a;
     --trace-green: #00ff41;
-    --solder-mask: #001a00;
 }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
     background-color: var(--chip-bg);
-    color: var(--trace-green);
+    color: #fff;
     font-family: 'JetBrains Mono', monospace;
     display: flex;
     justify-content: center;
-    padding-top: 50px;
+    padding: 40px 20px;
 }
 
-.container {
-    max-width: 700px;
-}
+.container { max-width: 800px; width: 100%; }
 
-.module {
-    border: 1px solid var(--trace-green);
-    padding: 2rem;
-    margin-bottom: 2rem;
-    background: rgba(0, 40, 0, 0.1);
+.module, .chamber {
+    padding: 3rem 2rem;
+    margin-bottom: 4rem;
     position: relative;
     overflow: hidden;
 }
 
-/* Section 1 Motion: The Fade-In Slide */
-.hardware-init {
-    animation: slideIn 1.2s ease-out;
+.zone-label {
+    font-size: 0.7rem;
+    opacity: 0.4;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
 }
 
-@keyframes slideIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* --- SECTIONS 1 & 2: RETRO TERMINAL --- */
+.module {
+    border: 1px solid var(--trace-green);
+    background: rgba(0, 40, 0, 0.1);
+    color: var(--trace-green);
 }
 
-.blurb {
-    font-size: 1.1rem;
-    line-height: 1.8;
-}
+.hardware-init { animation: slideIn 1s ease-out; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.highlight {
-    background: var(--trace-green);
-    color: var(--chip-bg);
-    padding: 0 5px;
-}
+.highlight { background: var(--trace-green); color: #000; padding: 0 5px; }
+.project-trace { border-style: dashed; }
+.trace-list { list-style: none; margin: 20px 0; }
+.trace-list li { border-left: 2px solid var(--trace-green); padding-left: 10px; margin: 5px 0; }
 
-/* Section 2 Style: The Circuit Trace */
-.project-trace {
-    border-style: dashed;
-}
-
-.trace-list {
-    list-style: none;
-    padding: 0;
-}
-
-.trace-list li {
-    margin: 10px 0;
-    padding-left: 10px;
-    border-left: 2px solid var(--trace-green);
-}
-
-.trace-id {
-    opacity: 0.5;
-    margin-right: 10px;
-}
-
-/* The "Scanner" Motion for Section 2 */
 .project-trace::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--trace-green);
-    box-shadow: 0 0 15px var(--trace-green);
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+    background: var(--trace-green); box-shadow: 0 0 15px var(--trace-green);
     animation: scan 4s linear infinite;
 }
+@keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
 
-@keyframes scan {
-    0% { top: 0; }
-    100% { top: 100%; }
+/* --- SECTION 3: TACTILE ZONE (Organic/Squishy) --- */
+.tactile-zone {
+    background: #111;
+    border-radius: 40px;
+    color: #e0e0e0;
+    text-align: center;
 }
 
-.pulse {
-    animation: blink 1s infinite;
+.squishy-btn {
+    margin-top: 2rem;
+    background: #fff;
+    color: #000;
+    padding: 1.5rem 3rem;
+    border: none;
+    border-radius: 50px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 0 #444;
 }
 
-@keyframes blink {
-    50% { opacity: 0; }
+.squishy-btn:hover { transform: scale(1.1) rotate(-1deg); box-shadow: 0 15px 0 #333; }
+.squishy-btn:active { transform: scale(0.95) translateY(10px); box-shadow: 0 0 0 #333; }
+
+/* --- SECTION 4: KINETIC ZONE (Fluid Typography) --- */
+.kinetic-zone {
+    background: #000;
+    font-family: 'Inter', sans-serif;
 }
+
+.variable-text {
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 400;
+    text-transform: uppercase;
+    transition: all 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
+    cursor: crosshair;
+}
+
+.variable-text:hover {
+    font-weight: 900;
+    letter-spacing: 20px;
+    color: #ff3e00;
+}
+
+/* --- SECTION 5: BRUTALIST ZONE (Raw/Anti-Design) --- */
+.brutalist-zone {
+    background: #f0f0f0;
+    color: #000;
+    font-family: 'Space Mono', monospace;
+}
+
+.chaos-title {
+    font-size: 5rem;
+    letter-spacing: -8px;
+    line-height: 0.8;
+    margin-bottom: 2rem;
+}
+
+.overlapping-content {
+    background: #000;
+    color: #fff;
+    padding: 2rem;
+    width: 105%;
+    margin-left: -5%;
+    transform: rotate(-1deg);
+}
+
+.brutalist-block {
+    display: inline-block;
+    border: 4px solid #000;
+    background: #ffff00;
+    color: #000;
+    padding: 10px 20px;
+    margin-top: 20px;
+    font-weight: 700;
+    box-shadow: 10px 10px 0px #000;
+}
+
+/* --- SECTION 6: SPATIAL ZONE (Liquid Glass) --- */
+.spatial-zone {
+    background: radial-gradient(circle at top left, #1a1a2e, #000);
+    border-radius: 20px;
+}
+
+.glass-container {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 3rem;
+    border-radius: 20px;
+}
+
+.depth-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+    box-shadow: 20px 20px 40px rgba(0,0,0,0.5);
+}
+
+/* --- UTILS --- */
+.pulse { animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0; } }
