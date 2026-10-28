@@ -60,128 +60,191 @@
     .tabular-nums { font-variant-numeric: tabular-nums; }
   </style>
 </head>
-<body class="bg-amber-50/40 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-amber-200 selection:text-amber-900">
+<body class="bg-amber-50/40 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-amber-200 selection:text-amber-900 pb-12">
 
-  <!-- Top Navigation Bar -->
-  <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-amber-100/80 px-4 py-3 sm:px-6">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <!-- Logo -->
-      <div class="flex items-center space-x-2">
-        <span class="text-3xl filter drop-shadow">🧻</span>
-        <div>
-          <h1 class="text-2xl font-bold font-display tracking-tight text-amber-900 flex items-center gap-1.5 leading-none">
-            TurdTally <span class="text-[10px] bg-emerald-100 text-emerald-800 font-sans font-bold px-2 py-0.5 rounded-full border border-emerald-200">WEALTH RECLAIMER</span>
+  <!-- STICKY TOP HUD BAR: Stays pinned while scrolling -->
+  <header class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-amber-200/90 shadow-sm px-3 py-2 sm:px-6">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <!-- Logo & Profile -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <span class="text-2xl filter drop-shadow">🧻</span>
+        <div class="hidden sm:block">
+          <h1 class="text-lg font-bold font-display text-amber-950 flex items-center gap-1.5 leading-none">
+            TurdTally
           </h1>
-          <p class="text-[11px] text-amber-700/80 font-medium">Reclaiming corporate wealth, drop by drop</p>
+          <p class="text-[10px] text-amber-700/80 font-medium">Reclaim Corporate Wealth</p>
+        </div>
+        <button id="profileBtn" class="flex items-center gap-1.5 bg-amber-100/70 hover:bg-amber-100 border border-amber-200 px-2.5 py-1 rounded-xl text-xs font-semibold text-amber-950">
+          <span>👑</span>
+          <span id="navThroneName" class="font-display truncate max-w-[90px] sm:max-w-[120px]">PlungerKing</span>
+        </button>
+      </div>
+
+      <!-- Live Counters in Sticky Bar -->
+      <div class="flex items-center gap-2 sm:gap-4 font-mono text-xs sm:text-sm">
+        <!-- Time -->
+        <div class="bg-slate-100 px-2 py-1 rounded-lg text-center">
+          <span class="block text-[9px] uppercase font-sans font-bold text-slate-400">Duration</span>
+          <span id="stickyTimer" class="font-bold text-slate-800 tabular-nums">00:00</span>
+        </div>
+        <!-- Reclaimed Cash -->
+        <div class="bg-emerald-50 border border-emerald-200/80 px-2.5 py-1 rounded-lg text-center">
+          <span class="block text-[9px] uppercase font-sans font-bold text-emerald-800">Paid</span>
+          <span id="stickyMoney" class="font-extrabold text-emerald-600 tabular-nums">$0.00</span>
+        </div>
+        <!-- Total TurdPoints -->
+        <div class="bg-amber-50 border border-amber-200/80 px-2.5 py-1 rounded-lg text-center">
+          <span class="block text-[9px] uppercase font-sans font-bold text-amber-800">TurdPoints</span>
+          <span id="stickyPoints" class="font-extrabold text-amber-600 tabular-nums">0 TP</span>
         </div>
       </div>
 
-      <!-- User Profile Badge -->
-      <div class="flex items-center gap-2">
-        <button id="profileBtn" class="flex items-center gap-2 bg-amber-100/60 hover:bg-amber-100 border border-amber-200/80 px-3.5 py-1.5 rounded-xl transition shadow-sm text-sm font-medium text-amber-950">
-          <span class="text-base">👑</span>
-          <span id="navThroneName" class="font-display font-semibold truncate max-w-[130px] sm:max-w-xs">PlungerKing_99</span>
-          <span class="text-xs opacity-60">✏️</span>
+      <!-- Quick Action Toggle Button (Initiate / Finished Mission) -->
+      <div class="flex items-center gap-1.5">
+        <button id="stickyToggleBtn" class="px-3.5 py-1.5 rounded-xl font-display font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 active:scale-95 transition shadow-sm flex items-center gap-1.5 whitespace-nowrap">
+          <span id="stickyToggleIcon">🚽</span>
+          <span id="stickyToggleText">Initiate Mission</span>
+        </button>
+        <button id="jumpToLoungeBtn" class="hidden sm:flex text-xs bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 font-bold px-2.5 py-1.5 rounded-xl items-center gap-1" title="Go to Throne Lounge">
+          🛋️ Lounge
         </button>
       </div>
     </div>
   </header>
 
+  <!-- LIVE SIMULATED PEER ROSTER BANNER (Safe & Privacy-Guaranteed) -->
+  <div class="bg-amber-900 text-amber-100 text-xs py-1.5 px-4 overflow-hidden border-b border-amber-800 flex items-center gap-3">
+    <span class="shrink-0 font-bold bg-amber-800 text-amber-200 px-2 py-0.5 rounded text-[10px] uppercase tracking-wider flex items-center gap-1">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Live Throne Wire
+    </span>
+    <div id="liveTickerMarquee" class="whitespace-nowrap overflow-hidden text-amber-200/90 text-[11px] font-mono flex-1">
+      <!-- Dynamic simulated peer updates stream here -->
+    </div>
+  </div>
+
   <!-- Main Content Layout -->
   <main class="flex-grow max-w-6xl mx-auto w-full p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
 
     <!-- LEFT COLUMN: Tracker Dashboard & Controls (lg:col-span-7) -->
-    <section class="lg:col-span-7 space-y-6">
+    <section class="lg:col-span-7 space-y-5">
       
       <!-- Primary Throne Counter Card -->
-      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-amber-950/5 border border-amber-100/80 relative overflow-hidden">
+      <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-xl shadow-amber-950/5 border border-amber-100/80 relative overflow-hidden">
         
         <div class="absolute -right-10 -bottom-10 text-9xl text-amber-50/50 pointer-events-none select-none font-display">🚽</div>
         
         <!-- Status indicator bar -->
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center justify-between mb-3">
           <div class="flex items-center gap-2">
             <span id="sessionStatusDot" class="w-3 h-3 rounded-full bg-slate-300"></span>
             <span id="sessionStatusText" class="text-xs font-bold tracking-wider uppercase text-slate-400">Throne Vacant</span>
           </div>
           <div id="activeReaderIndicator" class="hidden text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 rounded-full font-semibold animate-pulse">
-            📖 Reading Modal Active (+10 TP loop)
+            📖 Reading Active (+10 TP / 15s)
           </div>
         </div>
 
         <!-- Timer Display -->
-        <div class="text-center my-3">
+        <div class="text-center my-2">
           <div id="sessionTimer" class="font-mono text-5xl sm:text-6xl font-extrabold text-slate-800 tracking-tight tabular-nums">
             00:00<span class="text-2xl text-slate-400">.0</span>
           </div>
-          <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest font-semibold">Active Session Duration</p>
+          <p class="text-[11px] text-slate-400 mt-1 uppercase tracking-widest font-semibold">Stall Time Elapsed</p>
         </div>
 
-        <!-- Dual Live Ticker Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-5 relative">
-          
-          <!-- Box 1: Money Reclaimed -->
-          <div class="bg-gradient-to-br from-emerald-500/10 via-emerald-500/5 to-transparent border border-emerald-200/80 rounded-2xl p-4 text-center relative overflow-hidden">
+        <!-- Ticker Grid: Reclaimed Cash & Detailed 3-Way Points Breakdown -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-4">
+          <!-- Earnings -->
+          <div class="bg-gradient-to-br from-emerald-500/10 via-emerald-500/5 to-transparent border border-emerald-200/80 rounded-2xl p-4 text-center">
             <span class="text-xs font-bold text-emerald-800 uppercase tracking-wider block mb-1">Corporate Pay Reclaimed</span>
             <div class="font-mono text-3xl sm:text-4xl font-extrabold text-emerald-600 tabular-nums" id="liveMoneyTally">
               $0.000
             </div>
-            <p class="text-[11px] text-emerald-700/80 mt-1 font-medium">Boss makes a dollar, you make a dime</p>
+            <p class="text-[11px] text-emerald-700/80 mt-1 font-medium">Earned while doing your business</p>
           </div>
 
-          <!-- Box 2: TurdPoints (Gamification) -->
+          <!-- Gamified TurdPoints with 3-Way Split -->
           <div class="bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent border border-amber-200/80 rounded-2xl p-4 text-center relative overflow-hidden">
-            <span class="text-xs font-bold text-amber-800 uppercase tracking-wider block mb-1">TurdPoints™ Earned</span>
+            <span class="text-xs font-bold text-amber-800 uppercase tracking-wider block mb-0.5">Total TurdPoints™</span>
             <div class="font-mono text-3xl sm:text-4xl font-extrabold text-amber-600 tabular-nums flex items-center justify-center gap-1" id="livePointsTally">
               0 <span class="text-sm font-normal text-amber-700">TP</span>
             </div>
-            <p class="text-[11px] text-amber-700/80 mt-1" id="pointsSubtext">Active reading lounge bonus enabled</p>
             
+            <!-- Granular Points Split Indicator -->
+            <div class="mt-2 pt-2 border-t border-amber-200/50 flex justify-around text-[10px] font-mono text-amber-900">
+              <div>
+                <span class="text-slate-400 block font-sans font-bold">🚽 Stall TP</span>
+                <span id="livePoopPoints" class="font-bold text-amber-800">0</span>
+              </div>
+              <div class="border-r border-amber-200/70"></div>
+              <div>
+                <span class="text-emerald-700 block font-sans font-bold">📖 Read TP</span>
+                <span id="liveReadingPoints" class="font-bold text-emerald-700">0</span>
+              </div>
+            </div>
+
             <div id="badgeContainer" class="absolute inset-0 pointer-events-none flex items-center justify-center"></div>
           </div>
         </div>
 
-        <!-- HIGH-VISIBILITY PROMINENT WAGE CONFIGURATION BANNER -->
-        <div class="my-4">
-          <button id="prominentWageBtn" class="w-full p-3.5 rounded-2xl bg-amber-50 hover:bg-amber-100/80 border-2 border-dashed border-amber-300 hover:border-amber-400 transition flex items-center justify-between group shadow-sm">
+        <!-- CALLOUT BANNER: Direct awareness for Throne Reading Lounge -->
+        <div class="bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/15 border border-amber-300 rounded-2xl p-3 sm:p-3.5 mb-4 flex items-center justify-between gap-3 shadow-xs">
+          <div class="flex items-center gap-2.5">
+            <span class="text-2xl animate-bounce">🛋️</span>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-bold text-amber-950 uppercase">Throne Reading Lounge</span>
+                <span class="text-[9px] bg-emerald-600 text-white font-bold px-1.5 py-0.2 rounded-full">+10 TP / 15s</span>
+              </div>
+              <p class="text-[11px] text-amber-900/80 font-medium">Read articles while on the clock to speed up your TurdPoints score!</p>
+            </div>
+          </div>
+          <button id="bannerToLoungeBtn" class="shrink-0 px-3 py-1.5 bg-amber-800 hover:bg-amber-900 text-white rounded-xl text-xs font-bold font-display shadow transition">
+            Browse Feed ↓
+          </button>
+        </div>
+
+        <!-- PROMINENT WAGE ADJUSTMENT BANNER -->
+        <div class="my-3">
+          <button id="prominentWageBtn" class="w-full p-3 rounded-2xl bg-amber-50 hover:bg-amber-100/80 border-2 border-dashed border-amber-300 hover:border-amber-400 transition flex items-center justify-between group shadow-xs">
             <div class="flex items-center gap-3 text-left">
-              <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-900 flex items-center justify-center text-xl shrink-0">
+              <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-900 flex items-center justify-center text-lg shrink-0">
                 💰
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <span class="text-xs font-bold text-amber-900 tracking-wide uppercase">Your Compensation Rate</span>
-                  <span class="text-[10px] font-semibold bg-amber-200 text-amber-900 px-2 py-0.2 rounded-full">Tap to Edit</span>
+                  <span class="text-[11px] font-bold text-amber-900 tracking-wide uppercase">Your Compensation Rate</span>
+                  <span class="text-[9px] font-bold bg-amber-200 text-amber-900 px-1.5 py-0.2 rounded-full">Tap to Edit</span>
                 </div>
                 <div id="prominentWageDisplay" class="font-mono font-bold text-slate-800 text-sm sm:text-base">
                   $35.00/hr ($0.0097/sec)
                 </div>
               </div>
             </div>
-            <div class="text-amber-800 text-xs font-bold flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white shadow-xs group-hover:scale-105 transition">
+            <div class="text-amber-800 text-xs font-bold flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white shadow-xs group-hover:scale-105 transition">
               <span>⚙️ Adjust</span>
             </div>
           </button>
         </div>
 
-        <!-- Core Session Control Buttons -->
-        <div class="space-y-3">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <button id="startBtn" class="w-full py-4 px-6 rounded-2xl font-display font-bold text-lg text-white bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 active:scale-[0.98] transition shadow-lg shadow-amber-700/25 flex items-center justify-center gap-2">
-              <span>🚽</span> Initiate Mission
+        <!-- Controls: Mission Start/Finish, Pause, Flush, Abort -->
+        <div class="space-y-2.5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button id="startBtn" class="w-full py-3.5 px-5 rounded-2xl font-display font-bold text-base text-white bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 active:scale-[0.98] transition shadow-lg shadow-amber-700/20 flex items-center justify-center gap-2">
+              <span id="startBtnIcon">🚽</span> <span id="startBtnText">Initiate Mission</span>
             </button>
             
-            <button id="pauseBtn" disabled class="w-full py-4 px-6 rounded-2xl font-display font-bold text-lg text-slate-700 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition flex items-center justify-center gap-2 border border-slate-200">
+            <button id="pauseBtn" disabled class="w-full py-3.5 px-5 rounded-2xl font-display font-bold text-base text-slate-700 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition flex items-center justify-center gap-2 border border-slate-200">
               <span id="pauseBtnIcon">⏸️</span> <span id="pauseBtnText">Hold It (Pause)</span>
             </button>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-            <button id="flushBtn" disabled class="w-full py-3 px-5 rounded-2xl font-display font-bold text-base text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition shadow-md shadow-emerald-700/20 flex items-center justify-center gap-2">
-              <span>🌊</span> Flush & Log
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-0.5">
+            <button id="flushBtn" disabled class="w-full py-3 px-4 rounded-2xl font-display font-bold text-sm sm:text-base text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition shadow-md shadow-emerald-700/20 flex items-center justify-center gap-2">
+              <span>🌊</span> Flush & Log Victory
             </button>
             
-            <button id="abortBtn" disabled class="w-full py-3 px-5 rounded-2xl font-display font-semibold text-base text-rose-600 bg-rose-50 hover:bg-rose-100 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition border border-rose-200/80 flex items-center justify-center gap-2">
+            <button id="abortBtn" disabled class="w-full py-3 px-4 rounded-2xl font-display font-semibold text-sm sm:text-base text-rose-600 bg-rose-50 hover:bg-rose-100 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] transition border border-rose-200 flex items-center justify-center gap-2">
               <span>🛑</span> Abort Mission
             </button>
           </div>
@@ -189,84 +252,83 @@
       </div>
 
       <!-- Lifetime Stats Cards Bar -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div class="bg-white p-4 rounded-2xl border border-amber-100/80 shadow-sm text-center">
-          <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Career Paid</span>
-          <span id="statTotalPay" class="font-mono text-xl sm:text-2xl font-bold text-emerald-600 tabular-nums">$0.00</span>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div class="bg-white p-3.5 rounded-2xl border border-amber-100/80 shadow-xs text-center">
+          <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Career Paid</span>
+          <span id="statTotalPay" class="font-mono text-lg sm:text-xl font-bold text-emerald-600 tabular-nums">$0.00</span>
         </div>
-        <div class="bg-white p-4 rounded-2xl border border-amber-100/80 shadow-sm text-center">
-          <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Total Flushes</span>
-          <span id="statTotalFlushes" class="font-mono text-xl sm:text-2xl font-bold text-slate-800 tabular-nums">0</span>
+        <div class="bg-white p-3.5 rounded-2xl border border-amber-100/80 shadow-xs text-center">
+          <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Total Flushes</span>
+          <span id="statTotalFlushes" class="font-mono text-lg sm:text-xl font-bold text-slate-800 tabular-nums">0</span>
         </div>
-        <div class="bg-white p-4 rounded-2xl border border-amber-100/80 shadow-sm text-center">
-          <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Throne Time</span>
-          <span id="statTotalTime" class="font-mono text-lg sm:text-xl font-bold text-amber-900 tabular-nums">0m</span>
+        <div class="bg-white p-3.5 rounded-2xl border border-amber-100/80 shadow-xs text-center">
+          <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Throne Time</span>
+          <span id="statTotalTime" class="font-mono text-base sm:text-lg font-bold text-amber-900 tabular-nums">0m</span>
         </div>
-        <div class="bg-white p-4 rounded-2xl border border-amber-100/80 shadow-sm text-center">
-          <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Avg Flush Value</span>
-          <span id="statAvgValue" class="font-mono text-xl sm:text-2xl font-bold text-amber-700 tabular-nums">$0.00</span>
+        <div class="bg-white p-3.5 rounded-2xl border border-amber-100/80 shadow-xs text-center">
+          <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Avg Flush</span>
+          <span id="statAvgValue" class="font-mono text-lg sm:text-xl font-bold text-amber-700 tabular-nums">$0.00</span>
         </div>
       </div>
 
       <!-- Local Leaderboard & Hall of Flushes -->
-      <div class="bg-white rounded-3xl p-6 shadow-sm border border-amber-100/80">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+      <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-xs border border-amber-100/80">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3 pb-3 border-b border-slate-100">
           <div>
-            <h3 class="font-display font-bold text-lg text-slate-800 flex items-center gap-2">
-              🏆 Hall of Flushes (Personal Best & Logs)
+            <h3 class="font-display font-bold text-base sm:text-lg text-slate-800 flex items-center gap-2">
+              🏆 Hall of Flushes (Personal Logs)
             </h3>
-            <p class="text-xs text-slate-500">100% private local storage persistence</p>
+            <p class="text-xs text-slate-500">Points split between throne duration & active reading</p>
           </div>
 
           <div class="inline-flex rounded-xl bg-slate-100 p-1 text-xs font-semibold self-start sm:self-auto">
-            <button id="sortEarningsBtn" class="px-3 py-1 rounded-lg bg-white shadow-xs text-slate-800">Top Pay 💵</button>
-            <button id="sortPointsBtn" class="px-3 py-1 rounded-lg text-slate-500 hover:text-slate-800">TurdPoints ⭐</button>
-            <button id="sortRecentBtn" class="px-3 py-1 rounded-lg text-slate-500 hover:text-slate-800">Recent 🕒</button>
+            <button id="sortEarningsBtn" class="px-2.5 py-1 rounded-lg bg-white shadow-xs text-slate-800">Top Pay 💵</button>
+            <button id="sortPointsBtn" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800">Points ⭐</button>
+            <button id="sortRecentBtn" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800">Recent 🕒</button>
           </div>
         </div>
 
         <div id="sessionHistoryList" class="space-y-2 max-h-72 overflow-y-auto pr-1"></div>
 
-        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
-          <span>Synced locally to your device.</span>
+        <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+          <span>Encrypted LocalStorage Only</span>
           <button id="clearDataBtn" class="text-rose-500 hover:text-rose-700 font-medium">Reset Data</button>
         </div>
       </div>
 
-      <!-- Monetization / Self-Serve Ad Space -->
-      <div class="bg-gradient-to-r from-amber-900 via-amber-800 to-stone-900 text-white rounded-3xl p-5 shadow-lg border border-amber-700/50 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-2xl shrink-0">
+      <!-- Monetization Concept -->
+      <div class="bg-gradient-to-r from-amber-900 via-amber-800 to-stone-900 text-white rounded-3xl p-4 sm:p-5 shadow-lg border border-amber-700/50 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-xl shrink-0">
             💼
           </div>
           <div>
             <div class="flex items-center gap-2">
-              <span class="text-[10px] font-bold tracking-widest uppercase bg-amber-500/30 text-amber-300 px-2 py-0.5 rounded-full">Sponsor Opportunity</span>
-              <span class="text-xs text-amber-200/80">Captive Throne Attention</span>
+              <span class="text-[9px] font-bold tracking-widest uppercase bg-amber-500/30 text-amber-300 px-2 py-0.5 rounded-full">Sponsor Desk</span>
+              <span class="text-xs text-amber-200/80">Captive Throne Audience</span>
             </div>
-            <h4 class="font-display font-bold text-base sm:text-lg mt-0.5">Advertise to captive talent on company time!</h4>
-            <p class="text-xs text-amber-200/70">Reach decision-makers when they have nothing else to do.</p>
+            <h4 class="font-display font-bold text-sm sm:text-base mt-0.5">Reach decision makers with nowhere else to look</h4>
           </div>
         </div>
-        <button id="sponsorBtn" class="whitespace-nowrap w-full sm:w-auto px-4 py-2.5 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 hover:to-amber-200 text-amber-950 font-bold rounded-xl text-xs transition shadow font-display">
-          Claim Throne Space 🚀
+        <button id="sponsorBtn" class="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-amber-400 to-amber-300 hover:from-amber-300 text-amber-950 font-bold rounded-xl text-xs transition shadow font-display shrink-0">
+          Claim Space 🚀
         </button>
       </div>
 
     </section>
 
     <!-- RIGHT COLUMN: Gamified Throne Reading Lounge (lg:col-span-5) -->
-    <section class="lg:col-span-5 flex flex-col space-y-4">
+    <section id="readingLoungeSection" class="lg:col-span-5 flex flex-col space-y-4">
       
       <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-xl shadow-amber-950/5 border border-amber-100/80 flex-grow flex flex-col">
         
         <!-- Header -->
-        <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center justify-between mb-2">
           <div>
             <h2 class="font-display font-bold text-xl text-slate-800 flex items-center gap-2">
               🛋️ Throne Reading Lounge
             </h2>
-            <p class="text-xs text-slate-500">Open & read articles to earn <strong>+10 TP / 15s</strong> active bonus!</p>
+            <p class="text-xs text-slate-500">Tap to open full articles & earn <strong>+10 TP / 15s</strong> active bonus</p>
           </div>
           
           <button id="customizeTopicsBtn" class="text-xs bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 px-2.5 py-1 rounded-xl font-bold transition flex items-center gap-1">
@@ -274,19 +336,15 @@
           </button>
         </div>
 
-        <!-- News Category Tabs: Top 5 Active Topics -->
-        <div class="flex gap-1.5 overflow-x-auto pb-2 border-b border-slate-100 text-xs font-semibold no-scrollbar" id="categoryTabs">
-          <!-- Dynamically populated from active top 5 topics -->
-        </div>
+        <!-- News Category Tabs -->
+        <div class="flex gap-1.5 overflow-x-auto pb-2 border-b border-slate-100 text-xs font-semibold no-scrollbar" id="categoryTabs"></div>
 
         <!-- News Feed Container -->
-        <div id="newsFeedList" class="mt-4 space-y-3 overflow-y-auto max-h-[560px] flex-grow pr-1">
-          <!-- Injected dynamically -->
-        </div>
+        <div id="newsFeedList" class="mt-3 space-y-3 overflow-y-auto max-h-[580px] flex-grow pr-1"></div>
 
         <!-- Feed footer info -->
         <div class="mt-3 pt-3 border-t border-slate-100 text-[11px] text-slate-400 flex items-center justify-between">
-          <span class="flex items-center gap-1">💡 Click an article to open sandboxed reader</span>
+          <span class="flex items-center gap-1">📖 Points accumulate while modal is open</span>
           <button id="refreshFeedBtn" class="text-amber-800 font-semibold hover:underline flex items-center gap-1">
             🔄 New Dispatches
           </button>
@@ -298,99 +356,142 @@
 
   </main>
 
-  <!-- MODAL 1: SANDBOXED ARTICLE READER WITH DWELL-TIME BONUS ENGINE -->
-  <div id="readerModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-5">
-    <div class="bg-white rounded-3xl max-w-2xl w-full h-[90vh] flex flex-col shadow-2xl border border-amber-100 overflow-hidden relative">
+  <!-- MODAL 1: SANDBOXED FULL-LENGTH ARTICLE READER WITH DWELL-TIME BONUS ENGINE -->
+  <div id="readerModal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full h-[92vh] flex flex-col shadow-2xl border border-amber-100 overflow-hidden relative">
       
       <!-- Reader Header -->
-      <div class="p-4 sm:p-5 border-b border-slate-100 bg-amber-50/50 flex items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-amber-600/10 text-amber-800 flex items-center justify-center text-xl shrink-0">
+      <div class="p-3.5 sm:p-4 border-b border-slate-100 bg-amber-50/70 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-amber-600/10 text-amber-800 flex items-center justify-center text-lg shrink-0">
             📖
           </div>
           <div>
             <div class="flex items-center gap-2">
               <span id="readerModalCategory" class="text-[10px] font-bold uppercase tracking-wider bg-amber-200 text-amber-900 px-2 py-0.5 rounded-md">TECH</span>
-              <span id="readerModalSource" class="text-xs text-slate-500 font-semibold">Wired</span>
+              <span id="readerModalSource" class="text-xs text-slate-600 font-semibold truncate max-w-[120px] sm:max-w-xs">Wired</span>
             </div>
-            <span class="text-[11px] text-slate-400 font-mono" id="readerModalTime">3 min read</span>
+            <span class="text-[10px] text-slate-400 font-mono" id="readerModalTime">4 min full read</span>
           </div>
         </div>
 
         <!-- Active Dwell Bonus Status Ring -->
-        <div class="flex items-center gap-3">
-          <div id="readerDwellTracker" class="bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-2xl flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+        <div class="flex items-center gap-2">
+          <div id="readerDwellTracker" class="bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-xl flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
             <div class="text-left">
-              <span class="block text-[10px] font-bold text-emerald-800 uppercase tracking-tight leading-none">Reading Bonus</span>
-              <span id="dwellCountdownText" class="text-[11px] font-mono font-bold text-emerald-700">Next +10 TP: 15s</span>
+              <span class="block text-[9px] font-bold text-emerald-800 uppercase tracking-tight leading-none">Reading Bonus</span>
+              <span id="dwellCountdownText" class="text-[10px] font-mono font-bold text-emerald-700">Next +10 TP: 15s</span>
             </div>
           </div>
           
-          <button id="closeReaderBtn" class="text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg transition">
+          <button id="closeReaderBtn" class="text-slate-400 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 w-8 h-8 rounded-full flex items-center justify-center font-bold text-base transition">
             &times;
           </button>
         </div>
       </div>
 
-      <!-- Reader Body -->
-      <div class="p-6 sm:p-8 overflow-y-auto space-y-4 flex-grow text-slate-700 leading-relaxed text-sm sm:text-base selection:bg-amber-100">
-        <h2 id="readerModalTitle" class="font-display font-bold text-2xl sm:text-3xl text-slate-900 leading-tight">
+      <!-- Reader Body: FULL-LENGTH Multi-Paragraph Article Content -->
+      <div class="p-5 sm:p-7 overflow-y-auto space-y-4 flex-grow text-slate-700 leading-relaxed text-sm sm:text-base selection:bg-amber-100">
+        <h2 id="readerModalTitle" class="font-display font-bold text-xl sm:text-2xl text-slate-900 leading-snug">
           Article Headline
         </h2>
+        
         <div class="text-xs text-slate-400 flex items-center gap-2 pb-2 border-b border-slate-100">
-          <span>By <strong id="readerModalAuthor" class="text-slate-700">Staff Writer</strong></span>
+          <span>By <strong id="readerModalAuthor" class="text-slate-700">Staff Correspondent</strong></span>
           <span>•</span>
           <span id="readerModalDate">Today</span>
+          <span>•</span>
+          <span class="text-emerald-700 font-semibold">Verified Sandbox Dispatch</span>
         </div>
-        <div id="readerModalContent" class="space-y-4 font-sans text-slate-600 leading-7">
-          <!-- Text inserted dynamically -->
+
+        <div id="readerModalContent" class="space-y-4 font-sans text-slate-700 leading-7 text-sm sm:text-base">
+          <!-- Multi-paragraph rich article injected here dynamically -->
         </div>
       </div>
 
-      <!-- Reader Footer -->
-      <div class="p-4 border-t border-slate-100 bg-slate-50/80 flex items-center justify-between text-xs">
-        <span class="text-slate-500">Sandboxed in-app distraction-free mode</span>
-        <button id="openExternalSourceBtn" class="px-3.5 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-700 font-semibold transition flex items-center gap-1.5">
-          <span>Open External Source</span> ↗
+      <!-- Reader Footer: Keep Sandboxed & Safe External Link -->
+      <div class="p-3 sm:p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-xs">
+        <span class="text-slate-500 hidden sm:inline">Accumulating dwell points inside sandbox</span>
+        <button id="openExternalSourceBtn" class="px-3.5 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-700 font-semibold transition flex items-center gap-1.5 ml-auto sm:ml-0">
+          <span id="externalSourceLabel">Open Source Link</span> ↗
         </button>
       </div>
 
     </div>
   </div>
 
-  <!-- MODAL 2: CUSTOMIZE TOPICS & REQUEST CATEGORY -->
+  <!-- MODAL 2: SESSION FLUSH SUMMARY MODAL WITH 3-WAY POINT BREAKDOWN -->
+  <div id="summaryModal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-amber-100 text-center">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-800 text-3xl rounded-3xl flex items-center justify-center mx-auto mb-3 shadow-inner">
+        🚽✨
+      </div>
+      <h3 class="font-display font-bold text-2xl text-slate-900">Glorious Flush!</h3>
+      <p class="text-xs text-slate-500 mt-0.5">Corporate wealth successfully reallocated.</p>
+
+      <div class="my-5 p-4 rounded-2xl bg-amber-50/60 border border-amber-200/60 space-y-3">
+        <div class="flex justify-between items-center text-sm">
+          <span class="text-slate-600 font-medium">Earned This Session:</span>
+          <span id="summaryEarned" class="font-mono font-bold text-emerald-600 text-lg">$0.00</span>
+        </div>
+        <div class="flex justify-between items-center text-sm">
+          <span class="text-slate-600 font-medium">Session Duration:</span>
+          <span id="summaryDuration" class="font-mono font-bold text-slate-800">0m 0s</span>
+        </div>
+
+        <div class="pt-2 border-t border-amber-200 text-left">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-amber-900 block mb-1.5">TurdPoints™ Breakdown</span>
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="bg-white p-2 rounded-xl border border-amber-100 shadow-2xs">
+              <span class="text-[9px] block text-slate-400 font-bold uppercase">Stall Base</span>
+              <span id="summaryPoopPoints" class="font-mono font-bold text-amber-800 text-sm">0 TP</span>
+            </div>
+            <div class="bg-white p-2 rounded-xl border border-amber-100 shadow-2xs">
+              <span class="text-[9px] block text-emerald-600 font-bold uppercase">Reading</span>
+              <span id="summaryReadingPoints" class="font-mono font-bold text-emerald-700 text-sm">0 TP</span>
+            </div>
+            <div class="bg-amber-100 p-2 rounded-xl border border-amber-300 shadow-2xs">
+              <span class="text-[9px] block text-amber-900 font-bold uppercase">Total</span>
+              <span id="summaryTotalPoints" class="font-mono font-extrabold text-amber-950 text-sm">0 TP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button id="closeSummaryBtn" class="w-full py-3 bg-amber-800 hover:bg-amber-900 text-white font-display font-bold rounded-xl transition shadow">
+        Collect & Continue 🏆
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL 3: CUSTOMIZE TOPICS -->
   <div id="topicsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-amber-100 max-h-[90vh] flex flex-col">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
         <div>
           <h3 class="font-display font-bold text-xl text-slate-800 flex items-center gap-2">
-            ⚙️ Throne Reading Topics
+            ⚙️ Reading Topics
           </h3>
-          <p class="text-xs text-slate-500">Pick up to 5 favorite topics to display in your reading bar.</p>
+          <p class="text-xs text-slate-500">Pick top 5 topics to pin to your reading bar.</p>
         </div>
         <button id="closeTopicsBtn" class="text-slate-400 hover:text-slate-600 text-xl font-bold p-1">&times;</button>
       </div>
 
       <div class="py-4 overflow-y-auto space-y-4 flex-grow">
-        <!-- Topic checklist -->
         <div>
-          <label class="block text-xs font-bold text-slate-600 uppercase mb-2">Available Topics (<span id="selectedTopicsCount">5</span>/5 selected)</label>
-          <div id="topicsGrid" class="grid grid-cols-2 gap-2 text-xs">
-            <!-- Injected dynamically -->
-          </div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-2">Available Categories (<span id="selectedTopicsCount">5</span>/5 selected)</label>
+          <div id="topicsGrid" class="grid grid-cols-2 gap-2 text-xs"></div>
         </div>
 
-        <!-- Request / Add Custom Category -->
         <div class="bg-amber-50 rounded-2xl p-4 border border-amber-200/70 space-y-2">
           <label class="block text-xs font-bold text-amber-900 uppercase">Request or Add New Category</label>
           <div class="flex gap-2">
-            <input type="text" id="customCategoryInput" placeholder="e.g. Psychology, Crypto, Anime..." maxlength="20" class="flex-1 px-3 py-2 rounded-xl border border-amber-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 font-semibold" />
+            <input type="text" id="customCategoryInput" placeholder="e.g. Psychology, Crypto, Automotive..." maxlength="20" class="flex-1 px-3 py-2 rounded-xl border border-amber-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 font-semibold" />
             <button id="addCustomCategoryBtn" class="px-4 py-2 bg-amber-800 hover:bg-amber-900 text-white font-bold rounded-xl text-xs transition">
               + Add
             </button>
           </div>
-          <p class="text-[11px] text-amber-800/80">Add custom topics to automatically seed procedural dispatches!</p>
         </div>
       </div>
 
@@ -402,12 +503,12 @@
     </div>
   </div>
 
-  <!-- MODAL 3: WAGE & COMPENSATION CONFIG (Prominently triggered) -->
+  <!-- MODAL 4: WAGE CONFIG -->
   <div id="settingsModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-amber-100">
       <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
         <h3 class="font-display font-bold text-xl text-slate-800 flex items-center gap-2">
-          💰 Set Hourly Wage & Salary
+          💰 Adjust Compensation
         </h3>
         <button id="closeSettingsBtn" class="text-slate-400 hover:text-slate-600 text-xl font-bold p-1">&times;</button>
       </div>
@@ -442,7 +543,7 @@
     </div>
   </div>
 
-  <!-- MODAL 4: PROFILE & THRONE NAME -->
+  <!-- MODAL 5: PROFILE & THRONE NAME -->
   <div id="profileModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-amber-100">
       <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
@@ -455,37 +556,33 @@
       <div class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Your Throne Alias</label>
-          <p class="text-xs text-slate-500 mb-2">Crown your company bathroom victories with a royal tag.</p>
           <div class="flex gap-2">
             <input type="text" id="throneNameInput" maxlength="24" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 font-display font-bold text-base text-slate-800" />
-            <button id="randomizeNameBtn" class="px-3 py-2 bg-amber-100 hover:bg-amber-200 border border-amber-300 rounded-xl text-xs font-bold text-amber-900 transition flex items-center gap-1" title="Reroll handle">
+            <button id="randomizeNameBtn" class="px-3 py-2 bg-amber-100 hover:bg-amber-200 border border-amber-300 rounded-xl text-xs font-bold text-amber-900 transition flex items-center gap-1">
               🎲 Roll
             </button>
           </div>
         </div>
 
-        <div class="bg-amber-50 rounded-2xl p-4 border border-amber-200/60">
-          <h4 class="text-xs font-bold text-amber-900 uppercase tracking-wider mb-2">Throne Credentials</h4>
-          <div class="space-y-1.5 text-xs text-amber-800">
-            <div class="flex justify-between">
-              <span>Account Storage:</span>
-              <span class="font-bold">Encrypted Local Browser Cache</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Rank Status:</span>
-              <span id="profileRankBadge" class="font-bold text-emerald-700">Junior Flush Officer</span>
-            </div>
+        <div class="bg-amber-50 rounded-2xl p-4 border border-amber-200/60 text-xs text-amber-900 space-y-1">
+          <div class="flex justify-between">
+            <span>Sync Mode:</span>
+            <span class="font-bold text-emerald-800">Private Local Storage</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Rank:</span>
+            <span id="profileRankBadge" class="font-bold text-amber-900">Junior Flush Officer</span>
           </div>
         </div>
 
         <div class="pt-2">
-          <button id="saveProfileBtn" class="w-full py-3 bg-amber-800 hover:bg-amber-900 text-white font-display font-bold rounded-xl transition shadow">Save Identity</button>
+          <button id="saveProfileBtn" class="w-full py-3 bg-amber-800 hover:bg-amber-900 text-white font-display font-bold rounded-xl transition shadow">Save Alias</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL 5: SPONSOR SPACE -->
+  <!-- MODAL 6: SPONSOR SPACE -->
   <div id="sponsorModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-amber-100">
       <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
@@ -496,19 +593,10 @@
       </div>
 
       <div class="space-y-3 text-sm text-slate-600">
-        <p>You have discovered the highest-attention, zero-distraction ad inventory: <strong>corporate professionals actively being compensated while in stalls</strong>.</p>
-        
-        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-xs space-y-1">
-          <div class="flex justify-between"><span>Average dwell time:</span> <strong class="text-slate-800">9m 12s</strong></div>
-          <div class="flex justify-between"><span>Mindset:</span> <strong class="text-slate-800">Relaxed & Contemplative</strong></div>
-          <div class="flex justify-between"><span>Inventory Type:</span> <strong class="text-emerald-600">Native Self-Serve</strong></div>
-        </div>
-
-        <div class="pt-2">
-          <button id="sendSponsorEmailBtn" class="w-full py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-display font-bold rounded-xl transition shadow flex items-center justify-center gap-2">
-            ✉️ Email Inquiry to Sponsors@turdtally.internal
-          </button>
-        </div>
+        <p>Market directly to corporate talent during their most relaxed, receptive minutes of the workday.</p>
+        <button id="sendSponsorEmailBtn" class="w-full py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-display font-bold rounded-xl transition shadow flex items-center justify-center gap-2 mt-4">
+          ✉️ Contact Sponsor Bureau
+        </button>
       </div>
     </div>
   </div>
@@ -605,9 +693,9 @@
     const sound = new ThroneSoundEngine();
 
     /* ==========================================================================
-       2. STATE & LOCALSTORAGE PERSISTENCE ENGINE
+       2. STATE & LOCAL PERSISTENCE
        ========================================================================== */
-    const STORAGE_KEY = 'turdtally_throne_v1';
+    const STORAGE_KEY = 'turdtally_throne_v2';
 
     const DEFAULT_NAMES = [
       'SirFlushesAlot', 'PlungerPat_42', 'DuchessOfDumps', 'CaptainClogger_99',
@@ -648,8 +736,8 @@
         paused: false,
         elapsedSeconds: 0,
         currentEarnings: 0,
-        currentPoints: 0,
-        readingBonusCount: 0
+        poopPoints: 0,       // Points accumulated purely by stall duration
+        readingPoints: 0     // Points accumulated by active article reading
       },
       reader: {
         isOpen: false,
@@ -688,9 +776,8 @@
         const totalYearHours = (AppState.user.hoursPerWeek || 40) * 52;
         const hourly = AppState.user.annualSalary / Math.max(1, totalYearHours);
         return hourly / 3600;
-      } else {
-        return (AppState.user.hourlyRate || 35) / 3600;
       }
+      return (AppState.user.hourlyRate || 35) / 3600;
     }
 
     function getHourlyEquivalent() {
@@ -715,6 +802,7 @@
        ========================================================================== */
     let tickerInterval = null;
     let readingBonusInterval = null;
+    let peerTickerInterval = null;
     let currentSortMode = 'earnings';
 
     function formatTime(seconds) {
@@ -722,6 +810,12 @@
       const s = Math.floor(seconds % 60);
       const tenths = Math.floor((seconds % 1) * 10);
       return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}<span class="text-2xl text-slate-400">.${tenths}</span>`;
+    }
+
+    function formatTimeShort(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = Math.floor(seconds % 60);
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 
     function formatDurationClean(sec) {
@@ -749,18 +843,22 @@
 
       // Base time points: 1 point every 2 seconds
       if (Math.round(AppState.currentSession.elapsedSeconds * 10) % 20 === 0) {
-        AppState.currentSession.currentPoints += 1;
+        AppState.currentSession.poopPoints += 1;
       }
 
-      const timerEl = document.getElementById('sessionTimer');
-      const moneyEl = document.getElementById('liveMoneyTally');
-      const pointsEl = document.getElementById('livePointsTally');
+      const totalPoints = AppState.currentSession.poopPoints + AppState.currentSession.readingPoints;
 
-      if (timerEl) timerEl.innerHTML = formatTime(AppState.currentSession.elapsedSeconds);
-      if (moneyEl) moneyEl.textContent = `$${AppState.currentSession.currentEarnings.toFixed(3)}`;
-      if (pointsEl) {
-        pointsEl.innerHTML = `${AppState.currentSession.currentPoints} <span class="text-sm font-normal text-amber-700">TP</span>`;
-      }
+      // Update Main View
+      document.getElementById('sessionTimer').innerHTML = formatTime(AppState.currentSession.elapsedSeconds);
+      document.getElementById('liveMoneyTally').textContent = `$${AppState.currentSession.currentEarnings.toFixed(3)}`;
+      document.getElementById('livePointsTally').innerHTML = `${totalPoints} <span class="text-sm font-normal text-amber-700">TP</span>`;
+      document.getElementById('livePoopPoints').textContent = `${AppState.currentSession.poopPoints} TP`;
+      document.getElementById('liveReadingPoints').textContent = `${AppState.currentSession.readingPoints} TP`;
+
+      // Update Sticky Bar
+      document.getElementById('stickyTimer').textContent = formatTimeShort(AppState.currentSession.elapsedSeconds);
+      document.getElementById('stickyMoney').textContent = `$${AppState.currentSession.currentEarnings.toFixed(2)}`;
+      document.getElementById('stickyPoints').textContent = `${totalPoints} TP`;
     }
 
     // Secondary 1-second interval strictly managing the reading dwell requirement
@@ -768,7 +866,6 @@
       const countdownEl = document.getElementById('dwellCountdownText');
       const activeIndicator = document.getElementById('activeReaderIndicator');
 
-      // CRITICAL REQUIREMENT: Points only apply if session is active AND reader modal is open!
       if (AppState.currentSession.active && !AppState.currentSession.paused && AppState.reader.isOpen) {
         activeIndicator.classList.remove('hidden');
         AppState.reader.dwellTimer -= 1;
@@ -778,22 +875,58 @@
         }
 
         if (AppState.reader.dwellTimer <= 0) {
-          AppState.currentSession.currentPoints += 10;
-          AppState.currentSession.readingBonusCount += 1;
+          AppState.currentSession.readingPoints += 10;
           AppState.reader.dwellTimer = 15;
           sound.playPointBonus();
           triggerBonusBadge('+10 TP Reading Bonus!');
 
-          const pointsEl = document.getElementById('livePointsTally');
-          if (pointsEl) {
-            pointsEl.innerHTML = `${AppState.currentSession.currentPoints} <span class="text-sm font-normal text-amber-700">TP</span>`;
-          }
+          const totalPoints = AppState.currentSession.poopPoints + AppState.currentSession.readingPoints;
+          document.getElementById('livePointsTally').innerHTML = `${totalPoints} <span class="text-sm font-normal text-amber-700">TP</span>`;
+          document.getElementById('liveReadingPoints').textContent = `${AppState.currentSession.readingPoints} TP`;
+          document.getElementById('stickyPoints').textContent = `${totalPoints} TP`;
         }
       } else {
         activeIndicator.classList.add('hidden');
         if (countdownEl) {
-          countdownEl.textContent = AppState.currentSession.active ? 'Paused / Reader Idle' : 'Start mission to earn';
+          countdownEl.textContent = AppState.currentSession.active ? 'Paused / Reader Closed' : 'Start mission to earn';
         }
+      }
+    }
+
+    function updateSessionButtonStates(isRunning) {
+      const startBtn = document.getElementById('startBtn');
+      const startIcon = document.getElementById('startBtnIcon');
+      const startText = document.getElementById('startBtnText');
+
+      const stickyBtn = document.getElementById('stickyToggleBtn');
+      const stickyIcon = document.getElementById('stickyToggleIcon');
+      const stickyText = document.getElementById('stickyToggleText');
+
+      if (isRunning) {
+        // Change button to Finished Mission
+        startBtn.className = 'w-full py-3.5 px-5 rounded-2xl font-display font-bold text-base text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 active:scale-[0.98] transition shadow-lg shadow-emerald-700/20 flex items-center justify-center gap-2';
+        startIcon.textContent = '🏁';
+        startText.textContent = 'Finished Mission';
+
+        stickyBtn.className = 'px-3.5 py-1.5 rounded-xl font-display font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 active:scale-95 transition shadow-sm flex items-center gap-1.5 whitespace-nowrap';
+        stickyIcon.textContent = '🏁';
+        stickyText.textContent = 'Finished Mission';
+      } else {
+        startBtn.className = 'w-full py-3.5 px-5 rounded-2xl font-display font-bold text-base text-white bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 active:scale-[0.98] transition shadow-lg shadow-amber-700/20 flex items-center justify-center gap-2';
+        startIcon.textContent = '🚽';
+        startText.textContent = 'Initiate Mission';
+
+        stickyBtn.className = 'px-3.5 py-1.5 rounded-xl font-display font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 active:scale-95 transition shadow-sm flex items-center gap-1.5 whitespace-nowrap';
+        stickyIcon.textContent = '🚽';
+        stickyText.textContent = 'Initiate Mission';
+      }
+    }
+
+    function toggleMission() {
+      if (!AppState.currentSession.active) {
+        startSession();
+      } else {
+        flushAndLogSession();
       }
     }
 
@@ -803,11 +936,11 @@
       AppState.currentSession.paused = false;
       AppState.currentSession.elapsedSeconds = 0;
       AppState.currentSession.currentEarnings = 0;
-      AppState.currentSession.currentPoints = 10;
-      AppState.currentSession.readingBonusCount = 0;
+      AppState.currentSession.poopPoints = 10; // Entry bonus
+      AppState.currentSession.readingPoints = 0;
       AppState.reader.dwellTimer = 15;
 
-      document.getElementById('startBtn').disabled = true;
+      updateSessionButtonStates(true);
       document.getElementById('pauseBtn').disabled = false;
       document.getElementById('flushBtn').disabled = false;
       document.getElementById('abortBtn').disabled = false;
@@ -850,7 +983,7 @@
     }
 
     function abortSession() {
-      const dialog = confirm("Abort mission? All earnings and points accumulated during this stall break will be lost!");
+      const dialog = confirm("Abort mission? All earnings and points accumulated during this stall break will be discarded!");
       if (!dialog) return;
       resetSessionUI();
     }
@@ -860,26 +993,46 @@
       sound.playFlush();
       if (window.confetti) {
         confetti({
-          particleCount: 85,
-          spread: 75,
+          particleCount: 90,
+          spread: 80,
           origin: { y: 0.6 },
           colors: ['#10b981', '#f59e0b', '#3b82f6', '#b08968']
         });
       }
+
+      const poopPts = AppState.currentSession.poopPoints;
+      const readPts = AppState.currentSession.readingPoints;
+      const totalPts = poopPts + readPts;
 
       const newRecord = {
         id: 'flush_' + Date.now(),
         throneName: AppState.user.throneName,
         durationSeconds: AppState.currentSession.elapsedSeconds,
         earnings: AppState.currentSession.currentEarnings,
-        points: AppState.currentSession.currentPoints,
+        poopPoints: poopPts,
+        readingPoints: readPts,
+        points: totalPts,
         timestamp: new Date().toISOString()
       };
 
       AppState.sessions.unshift(newRecord);
       saveState();
       renderHistoryAndStats();
+
+      // Show summary breakdown modal
+      showSummaryModal(newRecord);
+
       resetSessionUI();
+    }
+
+    function showSummaryModal(record) {
+      document.getElementById('summaryEarned').textContent = `$${record.earnings.toFixed(2)}`;
+      document.getElementById('summaryDuration').textContent = formatDurationClean(record.durationSeconds);
+      document.getElementById('summaryPoopPoints').textContent = `${record.poopPoints} TP`;
+      document.getElementById('summaryReadingPoints').textContent = `${record.readingPoints} TP`;
+      document.getElementById('summaryTotalPoints').textContent = `${record.points} TP`;
+
+      document.getElementById('summaryModal').classList.remove('hidden');
     }
 
     function resetSessionUI() {
@@ -890,9 +1043,10 @@
       AppState.currentSession.paused = false;
       AppState.currentSession.elapsedSeconds = 0;
       AppState.currentSession.currentEarnings = 0;
-      AppState.currentSession.currentPoints = 0;
+      AppState.currentSession.poopPoints = 0;
+      AppState.currentSession.readingPoints = 0;
 
-      document.getElementById('startBtn').disabled = false;
+      updateSessionButtonStates(false);
       document.getElementById('pauseBtn').disabled = true;
       document.getElementById('flushBtn').disabled = true;
       document.getElementById('abortBtn').disabled = true;
@@ -909,83 +1063,199 @@
       document.getElementById('sessionTimer').innerHTML = '00:00<span class="text-2xl text-slate-400">.0</span>';
       document.getElementById('liveMoneyTally').textContent = '$0.000';
       document.getElementById('livePointsTally').innerHTML = '0 <span class="text-sm font-normal text-amber-700">TP</span>';
+      document.getElementById('livePoopPoints').textContent = '0';
+      document.getElementById('liveReadingPoints').textContent = '0';
+
+      document.getElementById('stickyTimer').textContent = '00:00';
+      document.getElementById('stickyMoney').textContent = '$0.00';
+      document.getElementById('stickyPoints').textContent = '0 TP';
       document.getElementById('activeReaderIndicator').classList.add('hidden');
     }
 
     /* ==========================================================================
-       4. PROCEDURAL REAL-WORLD NEWS DISPATCH ENGINE
+       4. PROCEDURAL FULL MULTI-PARAGRAPH ARTICLES & SOURCE LINKS
        ========================================================================== */
     const TOPIC_TEMPLATES = {
       tech: {
         sources: ['The Verge', 'TechCrunch', 'Ars Technica', 'Wired', 'MIT Tech Review'],
         articles: [
-          { title: "Next-Gen Quantum Processing Clusters Hit Commercial Quantum Advantage Milestone", author: "Dr. Elena Vance", min: 4, lead: "Researchers announced an engineering breakthrough overcoming thermal decoherence in room-temperature trapped-ion qubits.", p2: "The system sustained coherent entangled states for over four minutes, paving the path toward ultra-dense cryptographic simulation without requiring dilution refrigerators." },
-          { title: "Open-Source Autonomous Framework Outperforms Proprietary Code Models in Complex Benchmarks", author: "Marcus Lindqvist", min: 3, lead: "A collective of independent developers unveiled a distributed foundation model tuned specifically for software design.", p2: "Trained across publicly audited repositories, the model solves multi-file architectural refactors with zero hallucinated API calls." },
-          { title: "Silicon Photonics Breakthrough Cuts Datacenter Power Demands by 42%", author: "Sarah Jenkins", min: 5, lead: "Optical interconnects directly integrated on chip packages promise to eliminate the electrical transmission bottleneck.", p2: "Cloud providers project immediate thermal relief as photon-switched interconnects roll out to production hardware." }
+          {
+            title: "Next-Gen Quantum Processing Clusters Hit Commercial Quantum Advantage Milestone",
+            author: "Dr. Elena Vance",
+            min: 4,
+            externalUrl: "https://news.ycombinator.com",
+            content: [
+              "Researchers announced a monumental engineering breakthrough today, successfully overcoming thermal decoherence in room-temperature trapped-ion qubits. By leveraging localized micro-magnetic shields and laser-cooled calcium lattices, the research consortium sustained coherent entangled quantum states for over four minutes—a duration previously considered theoretically improbable without bulky dilution refrigerators.",
+              "The practical implications for cryptographic simulation and molecular modeling are staggering. Cloud infrastructure providers are already positioning access pipelines to deploy these modules alongside conventional hyperscale clusters. Unlike prior experimental architectures that demanded megawatt cryogenic compressors, the new apparatus operates safely on standard rack-mount electrical feeds.",
+              "Early commercial pilot partners in pharmaceuticals report that chemical docking runs that historically consumed forty-eight hours of supercomputing GPU cycles were resolved in under seventy seconds. Enterprise analysts expect this development to trigger a wave of venture investment into room-temperature quantum compilers and hardware verification tooling over the subsequent fiscal quarters."
+            ]
+          },
+          {
+            title: "Open-Source Autonomous Framework Outperforms Proprietary Code Models in Architectural Benchmarks",
+            author: "Marcus Lindqvist",
+            min: 3,
+            externalUrl: "https://github.com/trending",
+            content: [
+              "A global collective of independent engineers has released a distributed foundation model tuned specifically for large-scale software engineering. Built entirely on permissible open-weights data, the system exhibited superior resilience in end-to-end repository migrations and dependency graph resolution.",
+              "Traditional automated programming assistants frequently falter when managing asynchronous concurrency bugs across heterogeneous codebases. Benchmark tests showed this framework achieves a 94.2% compilation accuracy on complex legacy C++ to Rust ports, operating with zero hallucinated API calls or invalid pointer references.",
+              "Industry advocates celebrate the release as a triumph for software sovereignty, allowing small startups and open source maintainers to harness frontier architectural reasoning without surrendering proprietary telemetry to centralized cloud conglomerates."
+            ]
+          }
         ]
       },
       finance: {
         sources: ['Bloomberg', 'Financial Times', 'Wall Street Journal', 'CNBC', 'Reuters'],
         articles: [
-          { title: "Global Central Banks Shift Reserve Allocations Amid Currency Diversification Wave", author: "Julian Mercer", min: 4, lead: "Monetary authorities expanded liquidity agreements as multi-currency settlement rails established new trade volume records.", p2: "Treasury strategists noted sovereign wealth funds are rebalancing toward short-duration commercial instruments and inflation swaps." },
-          { title: "Venture Capital Deploys Record Dry Powder Into Capital-Efficient Robotics Startups", author: "Chloe Montgomery", min: 3, lead: "Series A rounds for hardware automation companies closed at premium multiples despite broader macroeconomic conservatism.", p2: "Founders cited clear unit economics and industrial warehouse labor demands as primary catalysts for institutional demand." },
-          { title: "Corporate Productivity Metrics Show Stagnation Despite Enterprise Cloud Migration", author: "Harrison Bell", min: 4, lead: "An international survey of 1,200 enterprises revealed that software sprawl often counteracts digital transformation gains.", p2: "Executives are consolidating tech stacks to reduce contextual switching penalties incurred by knowledge workers." }
+          {
+            title: "Global Central Banks Shift Reserve Allocations Amid High-Yield Liquidity Rebalancing",
+            author: "Julian Mercer",
+            min: 4,
+            externalUrl: "https://www.reuters.com/business",
+            content: [
+              "Monetary authorities across emerging and developed markets expanded multilateral clearing agreements this week, processing record transaction volumes through automated treasury swap lines. Strategists observe sovereign wealth managers strategically pivoting reserves away from vulnerable single-currency concentrations.",
+              "In parallel, commercial banks are reinforcing liquidity ratios by locking in short-duration commercial paper and index-linked sovereign notes. The resulting curve steepening has delivered renewed margin stability for retail lending institutions that had weathered volatile benchmark fluctuations throughout the preceding twelve months.",
+              "Treasury officials note that institutional risk tolerance has transitioned toward capital preservation, with algorithmic bond trading desks adopting stricter collateral parameters across repo markets."
+            ]
+          },
+          {
+            title: "Venture Allocators Deploy Fresh Dry Powder Into Capital-Efficient Industrial Robotics",
+            author: "Chloe Montgomery",
+            min: 3,
+            externalUrl: "https://www.bloomberg.com",
+            content: [
+              "Series A valuations for industrial automation firms closed at noticeable premiums this month, signaling a decisive return of institutional capital toward tangible hardware productivity. Rather than chasing speculative enterprise SaaS tools, allocators are prioritizing hardware-software hybrids that reduce factory floor labor bottlenecks.",
+              "Logistics conglomerates have accelerated installation schedules for vision-guided automated parcel handlers and autonomous mobile carts. Unit economics demonstrate that retrofitted fulfillment facilities recoup initial capital expenditures within fourteen months of operational deployment.",
+              "Founders credit recent advances in lightweight brushless motors and embedded edge-AI inference chips with drastically reducing bill-of-materials manufacturing overhead."
+            ]
+          }
         ]
       },
       science: {
         sources: ['Nature', 'ScienceDaily', 'New Scientist', 'Quanta', 'Scientific American'],
         articles: [
-          { title: "Deep-Sea Oceanic Core Samples Uncover 50,000-Year Climate Cycle Patterns", author: "Dr. Tariq Al-Mansoor", min: 5, lead: "Sedimentary drill samples from the Mariana Basin demonstrate unexpected synchronization between volcanic pulses and atmospheric carbon.", p2: "The isotopic data offers paleoclimatologists an unprecedented baseline to calibrate atmospheric thermodynamic models." },
-          { title: "CRISPR Epigenome Editing Restores Cellular Regeneration in Aged Muscular Tissue", author: "Clara Beaumont", min: 4, lead: "By adjusting histone methylation markers rather than altering DNA sequences, biologists reversed mitochondrial fatigue.", p2: "The therapy will move into preclinical non-human primate trials following unanimous institutional ethics approval." }
+          {
+            title: "Deep-Sea Oceanic Core Samples Reveal 50,000-Year Planetary Climate Synchronization",
+            author: "Dr. Tariq Al-Mansoor",
+            min: 5,
+            externalUrl: "https://www.nature.com",
+            content: [
+              "Sedimentary core samples extracted from the Mariana Trench have provided geochemists with the most pristine thermal timeline in modern paleoclimatology. Isotopic analysis of micro-fossilized foraminifera shells indicates cyclical synchronization between volcanic pulses, atmospheric carbon levels, and deep-ocean overturning currents.",
+              "The findings challenge historical assumptions that polar ice caps act solely as delayed responders in global cooling episodes. Instead, the sediment layers reveal abrupt decade-scale thermodynamic shifts prompted by equatorial oceanic venting.",
+              "Oceanographers emphasize that these geochemical baselines offer indispensable calibration data for supercomputer climate models, enabling researchers to forecast coastal sea-level resilience with unprecedented regional fidelity."
+            ]
+          }
         ]
       },
       world: {
         sources: ['Associated Press', 'BBC News', 'The Guardian', 'Al Jazeera', 'AFP'],
         articles: [
-          { title: "Renewable Energy Supergrid Links Five European Nations to Stabilize Continental Wind Power", author: "Klaus Hegen", min: 4, lead: "High-voltage direct current cables spanning the North Sea seabed entered full transmission operations this morning.", p2: "The interconnected topology allows instantaneous load-balancing between offshore wind farms and Alpine hydroelectric reserves." },
-          { title: "Global Summit Reaches Historic Treaty on Open-Water Oceanic Mining Restrictions", author: "Amara Ndege", min: 3, lead: "Representatives from 140 countries codified environmental zones across international waters to preserve hydrothermal vents.", p2: "Maritime observers praise the agreement as the most consequential high-seas preservation pact in half a century." }
+          {
+            title: "Renewable Energy Supergrid Links Five European Nations to Stabilize Continental Wind Power",
+            author: "Klaus Hegen",
+            min: 4,
+            externalUrl: "https://www.bbc.com/news",
+            content: [
+              "High-voltage direct current cables spanning the North Sea seabed entered full commercial operations early Tuesday morning, knitting offshore wind arrays across five countries into a coherent electrical balancing loop.",
+              "The subsea grid allows grid operators to export excess North Sea generation instantaneously toward southern hydroelectric pumped-storage reservoirs during heavy gusts, virtually eliminating wind curtailment waste.",
+              "Energy ministers hailed the infrastructural project as a gold standard in multinational cooperation, proving that modern power electronics and automated load dispatchers can deliver uninterrupted baseload stability exclusively from zero-carbon sources."
+            ]
+          }
         ]
       },
       weird: {
-        sources: ['UPI Oddities', 'BoingBoing', 'Atlas Obscura', 'Mental Floss', 'Reuters Weird'],
+        sources: ['UPI Oddities', 'BoingBoing', 'Atlas Obscura', 'Mental Floss', 'Reuters Oddities'],
         articles: [
-          { title: "Ancient Roman Sunken Villa Discovered Intact Beneath Italian Tourist Beach", author: "Lorenzo Rossi", min: 3, lead: "Marine archaeologists spotted pristine geometric tile mosaics just twelve feet beneath calm seaside snorkeling shallows.", p2: "Volcanic bradyserism slowly submerged the aristocratic retreat over sixteen centuries without disturbing the marble courtyards." },
-          { title: "Town in Norway Solves Perpetual Winter Shade With Giant Mountain Mirrors", author: "Astrid Lind", min: 2, lead: "Helio-reflectors mounted on towering cliffs track the winter horizon, funneling warm natural sunlight straight onto the town square.", p2: "Local café owners report record outdoor espresso patronage throughout the deepest weeks of polar winter." }
+          {
+            title: "Ancient Roman Submerged Villa Discovered Intact Beneath Calm Mediterranean Snorkeling Shallows",
+            author: "Lorenzo Rossi",
+            min: 3,
+            externalUrl: "https://www.atlasobscura.com",
+            content: [
+              "Holiday snorkelers off the western coast of Italy stumbled upon a subterranean archaeological wonderland when sunlight refracted across pristine geometric tile mosaics just twelve feet below the water surface.",
+              "Historians confirm the site was once a lavish thermal resort frequented by Roman patricians during the late republic. Gentle volcanic bradyserism—a phenomenon where the earth's crust slowly sinks without seismic trauma—gradually submerged the stone courtyards over sixteen centuries without toppling the marble columns.",
+              "Regional authorities have designated the bay an underwater national park, permitting guided glass-bottom kayak tours to admire the preserved mosaic floors while preserving the fragile marine ecosystem thriving along the ancient walls."
+            ]
+          }
         ]
       },
       history: {
         sources: ['Smithsonian Magazine', 'History Today', 'Archaeology Magazine', 'Heritage Daily'],
         articles: [
-          { title: "Decoded Bronze Age Tablets Reveal Complex Supply Chains of Mediterranean Tin Miners", author: "Prof. Arthur Pendelton", min: 4, lead: "Linguistic researchers deciphered linear accounting inscriptions documenting Cornish tin imports across Aegean trading hubs.", p2: "The logistics networks show intricate credit guarantees and maritime insurance mechanisms flourishing 3,400 years ago." },
-          { title: "The Forgotten Engineers Who Tunneled Under Victorian London by Hand", author: "Beatrice Webb", min: 4, lead: "Archival blueprints reveal the pneumatic shields and bricklaying techniques that carved the world's first underground transit system.", p2: "Navvies worked around the clock in clay conditions to erect the brick archways that still support millions of commuters today." }
+          {
+            title: "Decoded Bronze Age Tablets Reveal Complex Supply Chains of Ancient Mediterranean Tin Traders",
+            author: "Prof. Arthur Pendelton",
+            min: 4,
+            externalUrl: "https://www.smithsonianmag.com",
+            content: [
+              "Linguistic scholars utilizing multispectral imaging have decoded a repository of cuneiform and Linear B clay tablets, laying bare an intricate multinational trade network operating 3,400 years ago.",
+              "The translated receipts and bills of lading indicate Cornish tin miners were routinely shipping ingots across Brittany and into Aegean maritime hubs, supported by sophisticated credit warranties and cargo insurance mechanisms.",
+              "The evidence proves that Bronze Age civilizations enjoyed deep economic interdependence, featuring standardized weights and contractual dispute arbitration courts long before the rise of classical Greece and Rome."
+            ]
+          }
         ]
       },
       ai: {
         sources: ['VentureBeat', 'The Batch', 'MIT News', 'TechCrunch AI'],
         articles: [
-          { title: "Neuromorphic Chip Emulates Synaptic Plasticity with Sub-Milliwatt Efficiency", author: "Devon Chen", min: 3, lead: "A research team synthesized memristor arrays that learn sensory patterns natively without algorithmic backpropagation passes.", p2: "By processing continuous spike intervals, the chip consumes a fraction of traditional GPU clusters for computer vision." },
-          { title: "Synthesized Voice Models Achieve Imperceptible Conversational Latency Under 90ms", author: "Rachel Vance", min: 4, lead: "Low-overhead streaming transformers eliminated the conversational lag that previously broke conversational realism in audio agents.", p2: "Developers describe natural speech turn-taking and prosody modulation as key advancements for accessibility tools." }
+          {
+            title: "Neuromorphic Chip Architecture Emulates Synaptic Plasticity with Sub-Milliwatt Power Draw",
+            author: "Devon Chen",
+            min: 3,
+            externalUrl: "https://news.mit.edu",
+            content: [
+              "Bioengineering researchers have created an artificial synaptic array using analog memristive circuits that adapt their conductances directly from electrical spikes. The architecture consumes less than 1.2 milliwatts of electricity during continuous real-time audio and visual recognition tasks.",
+              "Traditional digital computing relies on high-power matrix multiplication passes that generate significant thermal friction. By modeling the biological brain's sparse activation dynamics, this chip processes continuous sensory data without draining battery reserves.",
+              "Engineers project widespread integration in low-power biomedical wearables, hearing implants, and planetary exploratory probes where recharging cycles are strictly limited."
+            ]
+          }
         ]
       },
       gaming: {
         sources: ['IGN', 'Polygon', 'Kotaku', 'Eurogamer', 'PC Gamer'],
         articles: [
-          { title: "Next-Gen Physics Engines Introduce Real-Time Volumetric Fluid & Aerodynamics", author: "Leo Ortiz", min: 3, lead: "Game engine developers showcased fully dynamic weather simulation where wind pressures calculate localized ballistics in real time.", p2: "Indie developers are adopting the middleware to build unprecedented environmental navigation mechanics." },
-          { title: "Restoration Team Recovers Lost 1994 Unreleased Arcade Prototype From Abandoned Warehouse", author: "Sam Tanaka", min: 4, lead: "Archivists successfully dumped EPROM chips from an experimental vector cabinet once thought to be pure industry rumor.", p2: "The museum team plans to release emulated source code alongside high-resolution documentation for public preservation." }
+          {
+            title: "Next-Gen Physics Engines Introduce Real-Time Volumetric Fluid & Atmospheric Ballistics",
+            author: "Leo Ortiz",
+            min: 3,
+            externalUrl: "https://www.polygon.com",
+            content: [
+              "Leading game engine architects demonstrated real-time computational fluid dynamics running smoothly on consumer gaming hardware. Rather than relying on pre-baked particle simulations, the engine computes every droplet of water and atmospheric wind pressure at sixty frames per second.",
+              "Level designers demonstrated playable simulations where sudden dam collapses dynamically erode riverbanks, extinguish fires, and sweep away interactive environmental structures in physically truthful patterns.",
+              "Game studios anticipate the technology will unlock innovative environmental puzzle designs and emergent open-world gameplay systems in the upcoming generation of titles."
+            ]
+          }
         ]
       },
       popculture: {
         sources: ['Variety', 'Rolling Stone', 'The Hollywood Reporter', 'Billboard'],
         articles: [
-          { title: "Analog Synthesizer Renaissance Sparks Surging Vinyl Cassette Resurgence Among Gen Z", author: "Maya Brooks", min: 3, lead: "Independent recording artists are intentionally mastering on magnetic tape to bypass sterile digital normalization curves.", p2: "Physical cassette production facilities in North America report year-long backorders for boutique limited pressings." },
-          { title: "Practical Effects Comeback: Studio Blockbusters Pivot Away From Full-CGI Sets", author: "Elliot Vance", min: 4, lead: "Cinematographers praise tactile animatronics and miniature rear-projections for restoring authentic lighting physics on screen.", p2: "Directors note actor performance and presence improved dramatically when interacting with real physical set designs." }
+          {
+            title: "Analog Recording Renaissance Sparks Surging Demand for Real Magnetic Tape Mastering",
+            author: "Maya Brooks",
+            min: 3,
+            externalUrl: "https://www.rollingstone.com",
+            content: [
+              "Chart-topping musicians and independent producers alike are deliberately stepping away from hyper-sanitized digital audio workstations, choosing to track and master new albums on vintage two-inch magnetic tape reels.",
+              "Engineers cite the natural harmonic saturation and tactile tape compression as an essential counterweight to sterile streaming algorithms. Boutique cassette and vinyl pressing plants across North America report twelve-month backlogs to meet consumer appetites for physical formats.",
+              "The trend highlights a broader cultural hunger among younger listeners for tangible, uncompressed audio artifacts that capture the organic presence and acoustic imperfections of live studio performance."
+            ]
+          }
         ]
       },
       sports: {
         sources: ['The Athletic', 'ESPN', 'Bleacher Report', 'Sky Sports'],
         articles: [
-          { title: "Biomechanic Sensor Fabric Detects Soft-Tissue Fatigue Before Athlete Symptoms Appear", author: "Derrick Cole", min: 3, lead: "Premier League training facilities deployed micro-filament jerseys monitoring muscle strain and asymmetric stride patterns.", p2: "Early preventative resting interventions cut rotational hamstring injuries across the squad by nearly half." },
-          { title: "High-Altitude Aerodynamic Helmets Revolutionize Track Cycling World Records", author: "Fiona MacLeod", min: 3, lead: "Wind tunnel computational fluid dynamics sculpted radical geometric profiles that reduce drag coefficients by 7%.", p2: "Olympic velodrome competitors achieved unprecedented lap velocities during this weekend's world cup qualifiers." }
+          {
+            title: "Sensor-Weave Athletic Wear Detects Micro-Tendon Strain Before Muscle Tears Occur",
+            author: "Derrick Cole",
+            min: 3,
+            externalUrl: "https://theathletic.com",
+            content: [
+              "Premier athletic organizations have integrated conductive graphene filaments into squad training jerseys to continuously monitor muscle elasticity and rotational gait symmetry in real time.",
+              "During recent multi-match congested fixtures, real-time biomechanical telemetry alerted medical trainers to micro-muscle fatigue in five star athletes. Preventative resting protocols subsequently reduced hamstring tear incidence across the roster by nearly half.",
+              "Sports scientists characterize smart-textile diagnostics as the next frontier in athletic longevity, ensuring players maintain peak performance while safeguarding against season-ending orthopedic injuries."
+            ]
+          }
         ]
       }
     };
@@ -993,37 +1263,43 @@
     let activeCategory = 'tech';
 
     function getArticlesForCategory(catId) {
-      // Check default catalog or generate procedural placeholder for custom category
       const data = TOPIC_TEMPLATES[catId];
       if (data) {
-        // Randomize list order slightly to make it feel fresh
-        return [...data.articles].sort(() => 0.5 - Math.random()).map(a => ({
+        return data.articles.map(a => ({
           ...a,
           source: data.sources[Math.floor(Math.random() * data.sources.length)],
           date: 'Just now'
         }));
       }
 
-      // Procedural generation for custom user-requested categories
+      // Procedural generation for custom user categories
       const cleanName = catId.charAt(0).toUpperCase() + catId.slice(1);
       return [
         {
-          title: `Breakthrough Developments and Modern Trends in ${cleanName}`,
+          title: `Breakthrough Developments and Contemporary Innovations in ${cleanName}`,
           source: `${cleanName} Chronicle`,
-          author: "Field Analyst",
-          min: 3,
+          author: "Bureau Analyst",
+          min: 4,
           date: 'Just now',
-          lead: `Pioneering initiatives across the global ${cleanName} landscape are accelerating research, capital efficiency, and public engagement.`,
-          p2: `Specialists point to cross-disciplinary collaboration and novel tooling as the core catalysts reshaping standards over the coming decade.`
+          externalUrl: "https://news.google.com",
+          content: [
+            `Pioneering initiatives across the global ${cleanName} landscape are accelerating research, capital efficiency, and public engagement at an unprecedented cadence. Industry leaders point to modernized workflows and specialized digital infrastructure as the primary engines driving this transition.`,
+            `Specialists observe that early adopters in ${cleanName} are bypassing legacy structural bottlenecks, achieving superior agility while delivering demonstrable value across enterprise and consumer domains alike.`,
+            `As cross-disciplinary collaborations expand over the upcoming fiscal periods, analysts project sustainable improvements in operational standards, providing a sturdy foundation for future iterations in the field.`
+          ]
         },
         {
-          title: `How Contemporary Leaders Are Rethinking Core ${cleanName} Strategies`,
-          source: `${cleanName} Weekly`,
-          author: "Industry Bureau",
-          min: 4,
+          title: `Strategic Shifts: How Leaders are Navigating Emerging Realities in ${cleanName}`,
+          source: `${cleanName} Journal`,
+          author: "Research Lead",
+          min: 3,
           date: 'Today',
-          lead: `A new comprehensive market report documents how technological shifts are creating unexpected advantages for agile practitioners in ${cleanName}.`,
-          p2: `By adopting responsive workflows, forward-looking groups have unlocked substantial efficiency while mitigating structural headwinds.`
+          externalUrl: "https://news.google.com",
+          content: [
+            `A comprehensive review of modern operational methods in ${cleanName} reveals that forward-thinking organizations are prioritizing flexibility and data-driven insights over rigid legacy dogma.`,
+            `Interviews with principal operators emphasize that sustainable progress stems from continuous learning cycles and collaborative tooling. By fostering responsive architectures, teams mitigate exposure to volatile macroeconomic headwinds.`,
+            `The consensus among sector economists suggests that sustained investments in talent and modern systems will define market leadership within ${cleanName} over the coming decade.`
+          ]
         }
       ];
     }
@@ -1033,8 +1309,6 @@
       if (!container) return;
 
       const topicsToRender = AppState.user.selectedTopics.slice(0, 5);
-      
-      // Ensure active category is valid
       if (!topicsToRender.includes(activeCategory) && topicsToRender.length > 0) {
         activeCategory = topicsToRender[0];
       }
@@ -1044,13 +1318,12 @@
         const label = found ? found.label : `🏷️ ${topicId.charAt(0).toUpperCase() + topicId.slice(1)}`;
         const isActive = topicId === activeCategory;
         const btnClass = isActive 
-          ? 'cat-btn px-3.5 py-1.5 rounded-xl bg-amber-800 text-white font-bold shadow-xs shrink-0 transition'
-          : 'cat-btn px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0 transition font-medium';
+          ? 'cat-btn px-3 py-1.5 rounded-xl bg-amber-800 text-white font-bold shadow-xs shrink-0 transition'
+          : 'cat-btn px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0 transition font-medium';
 
         return `<button data-cat="${topicId}" class="${btnClass}">${label}</button>`;
       }).join('');
 
-      // Attach click events
       container.querySelectorAll('.cat-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           activeCategory = btn.dataset.cat;
@@ -1077,21 +1350,21 @@
             ${escapeHtml(art.title)}
           </h4>
           <p class="text-xs text-slate-600 line-clamp-2">
-            ${escapeHtml(art.lead)}
+            ${escapeHtml(art.content[0])}
           </p>
           <div class="mt-2.5 flex items-center justify-between text-[11px]">
             <span class="text-emerald-700 font-bold flex items-center gap-1">
               <span>📖</span> Earns +10 TP / 15s in reader
             </span>
             <span class="text-amber-800 font-bold group-hover:translate-x-0.5 transition flex items-center gap-0.5">
-              Open Reader ↗
+              Read Full Article ↗
             </span>
           </div>
         </div>
       `).join('');
     }
 
-    // Opens sandboxed reader modal and initiates active dwell-time tracker
+    // Opens sandboxed reader modal with FULL MULTI-PARAGRAPH ARTICLE
     window.openReaderModal = function(category, articleIndex) {
       sound.playChime();
       const articles = getArticlesForCategory(category);
@@ -1100,21 +1373,25 @@
 
       AppState.reader.isOpen = true;
       AppState.reader.activeArticle = article;
-      AppState.reader.dwellTimer = 15; // Reset dwell loop
+      AppState.reader.dwellTimer = 15;
 
       document.getElementById('readerModalCategory').textContent = category.toUpperCase();
       document.getElementById('readerModalSource').textContent = article.source;
-      document.getElementById('readerModalTime').textContent = `${article.min} min read`;
+      document.getElementById('readerModalTime').textContent = `${article.min} min full read`;
       document.getElementById('readerModalTitle').textContent = article.title;
       document.getElementById('readerModalAuthor').textContent = article.author || 'Senior Correspondent';
       document.getElementById('readerModalDate').textContent = article.date || 'Today';
+      document.getElementById('externalSourceLabel').textContent = `Visit ${article.source}`;
 
-      document.getElementById('readerModalContent').innerHTML = `
-        <p class="font-semibold text-slate-800 text-base leading-relaxed">${escapeHtml(article.lead)}</p>
-        <p>${escapeHtml(article.p2 || "The strategic implications of this shift are reverberating across industry leaders, sparking spirited debate on upcoming regulatory frameworks and technical benchmarks.")}</p>
-        <p>Market observers stress that early adoption patterns indicate this trend will outlast temporary cyclical fluctuations. As teams integrate more streamlined tooling, the threshold for operational efficiency continues to rise across global competitive sectors.</p>
-        <p>Future releases and updates are slated for deployment in the coming quarter, with industry symposiums slated to review real-world telemetry and validated outcomes.</p>
-      `;
+      // Injects full multi-paragraph article body
+      const contentHtml = article.content.map((p, i) => {
+        if (i === 0) {
+          return `<p class="font-semibold text-slate-800 text-base leading-relaxed mb-3">${escapeHtml(p)}</p>`;
+        }
+        return `<p class="mb-3 text-slate-700 leading-7">${escapeHtml(p)}</p>`;
+      }).join('');
+
+      document.getElementById('readerModalContent').innerHTML = contentHtml;
 
       const dwellText = document.getElementById('dwellCountdownText');
       if (dwellText) {
@@ -1136,7 +1413,41 @@
     }
 
     /* ==========================================================================
-       5. LOCAL LEADERBOARD & STATS DASHBOARD
+       5. SAFE & LIGHTWEIGHT SIMULATED MULTI-USER PORCELAIN TICKER
+       ========================================================================== */
+    const SIMULATED_PEER_ACTIONS = [
+      "StallVanguard just reclaimed $4.82 in London! 🚽",
+      "PorcelainRebel hit 180 TurdPoints reading Tech Crunch 📱",
+      "CubicleHero completed an 8m 20s throne mission (+$6.12) 💼",
+      "FlushKnight leveled up to Porcelain Sovereign 👑",
+      "CaffeineDrop collected +10 TP reading Weird News 📖",
+      "ExecutiveLoo secured $11.45 during executive sync 👔",
+      "BidetBaron logged a clean flush (+45 TP) 🌊"
+    ];
+
+    function startPeerTicker() {
+      const tickerEl = document.getElementById('liveTickerMarquee');
+      if (!tickerEl) return;
+
+      let idx = 0;
+      function showNextPeer() {
+        const text = SIMULATED_PEER_ACTIONS[idx % SIMULATED_PEER_ACTIONS.length];
+        tickerEl.style.opacity = '0';
+        setTimeout(() => {
+          tickerEl.textContent = text;
+          tickerEl.style.transition = 'opacity 0.4s ease-in-out';
+          tickerEl.style.opacity = '1';
+        }, 200);
+        idx++;
+      }
+
+      showNextPeer();
+      clearInterval(peerTickerInterval);
+      peerTickerInterval = setInterval(showNextPeer, 6000);
+    }
+
+    /* ==========================================================================
+       6. LEADERBOARD & STATS DASHBOARD WITH 3-WAY SPLIT
        ========================================================================== */
     function renderHistoryAndStats() {
       const totalSessions = AppState.sessions.length;
@@ -1178,9 +1489,9 @@
 
       if (sorted.length === 0) {
         listContainer.innerHTML = `
-          <div class="text-center py-8 text-slate-400">
-            <span class="text-3xl block mb-1">📭</span>
-            <p class="text-xs">No recorded flushes yet. Initiate a mission and reclaim your first corporate dollar!</p>
+          <div class="text-center py-6 text-slate-400">
+            <span class="text-2xl block mb-1">📭</span>
+            <p class="text-xs">No flushes logged yet. Click Initiate Mission to begin reclaiming corporate pay!</p>
           </div>
         `;
         return;
@@ -1192,10 +1503,13 @@
           month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
         });
 
+        const poopPts = s.poopPoints || Math.round((s.points || 0) * 0.7);
+        const readPts = s.readingPoints || ((s.points || 0) - poopPts);
+
         return `
           <div class="flex items-center justify-between p-3 rounded-2xl bg-amber-50/50 hover:bg-amber-100/40 border border-amber-100/60 transition text-xs">
-            <div class="flex items-center gap-3">
-              <span class="font-display font-bold text-sm w-6 text-center text-amber-900">${medal}</span>
+            <div class="flex items-center gap-2.5">
+              <span class="font-display font-bold text-sm w-5 text-center text-amber-900">${medal}</span>
               <div>
                 <span class="font-display font-semibold text-slate-800 text-sm block">${escapeHtml(s.throneName || 'ThroneWarrior')}</span>
                 <span class="text-[10px] text-slate-400">${dateStr} • Duration: ${formatDurationClean(s.durationSeconds)}</span>
@@ -1203,7 +1517,9 @@
             </div>
             <div class="text-right">
               <span class="font-mono font-bold text-emerald-600 text-sm block">+$${Number(s.earnings || 0).toFixed(2)}</span>
-              <span class="font-mono text-[11px] font-semibold text-amber-700">${s.points || 0} TP</span>
+              <span class="font-mono text-[10px] text-slate-500 font-semibold block">
+                <span class="text-amber-800">${poopPts} Stall</span> + <span class="text-emerald-700">${readPts} Read</span> = <strong class="text-amber-950">${s.points || 0} TP</strong>
+              </span>
             </div>
           </div>
         `;
@@ -1215,13 +1531,12 @@
     }
 
     /* ==========================================================================
-       6. TOPIC CUSTOMIZATION MODAL ENGINE
+       7. TOPIC CUSTOMIZATION ENGINE
        ========================================================================== */
     function renderTopicsCustomizer() {
       const grid = document.getElementById('topicsGrid');
       if (!grid) return;
 
-      // Merge defaults with any user added custom categories
       const allTopics = [...ALL_AVAILABLE_TOPICS];
       AppState.user.customCategories.forEach(c => {
         if (!allTopics.some(t => t.id === c)) {
@@ -1255,11 +1570,13 @@
     }
 
     /* ==========================================================================
-       7. UI EVENT LISTENERS
+       8. UI EVENT HANDLERS
        ========================================================================== */
     function setupEventListeners() {
-      // Core Mission Controls
-      document.getElementById('startBtn').addEventListener('click', startSession);
+      // Mission Controls: Initiate / Finished Mission
+      document.getElementById('startBtn').addEventListener('click', toggleMission);
+      document.getElementById('stickyToggleBtn').addEventListener('click', toggleMission);
+
       document.getElementById('pauseBtn').addEventListener('click', togglePause);
       document.getElementById('abortBtn').addEventListener('click', abortSession);
       document.getElementById('flushBtn').addEventListener('click', flushAndLogSession);
@@ -1267,8 +1584,25 @@
       // Reader Modal
       document.getElementById('closeReaderBtn').addEventListener('click', closeReaderModal);
       document.getElementById('openExternalSourceBtn').addEventListener('click', () => {
-        window.open('https://news.google.com', '_blank', 'noopener,noreferrer');
+        if (AppState.reader.activeArticle && AppState.reader.activeArticle.externalUrl) {
+          window.open(AppState.reader.activeArticle.externalUrl, '_blank', 'noopener,noreferrer');
+        } else {
+          window.open('https://news.google.com', '_blank', 'noopener,noreferrer');
+        }
       });
+
+      // Summary Modal Close
+      document.getElementById('closeSummaryBtn').addEventListener('click', () => {
+        document.getElementById('summaryModal').classList.add('hidden');
+      });
+
+      // Jump to Reading Lounge shortcuts
+      const scrollToLounge = () => {
+        const loungeEl = document.getElementById('readingLoungeSection');
+        if (loungeEl) loungeEl.scrollIntoView({ behavior: 'smooth' });
+      };
+      document.getElementById('bannerToLoungeBtn').addEventListener('click', scrollToLounge);
+      document.getElementById('jumpToLoungeBtn').addEventListener('click', scrollToLounge);
 
       // Refresh dispatches
       document.getElementById('refreshFeedBtn').addEventListener('click', () => {
@@ -1321,7 +1655,7 @@
         sound.playChime();
       });
 
-      // HIGH-VISIBILITY PROMINENT WAGE SELECTOR BUTTON
+      // WAGE SETTINGS MODAL
       const settingsModal = document.getElementById('settingsModal');
       const prominentWageBtn = document.getElementById('prominentWageBtn');
       const closeSettingsBtn = document.getElementById('closeSettingsBtn');
@@ -1440,9 +1774,9 @@
 
       function updateSortButtons(activeBtn) {
         [sortEarningsBtn, sortPointsBtn, sortRecentBtn].forEach(b => {
-          b.className = 'px-3 py-1 rounded-lg text-slate-500 hover:text-slate-800';
+          b.className = 'px-2.5 py-1 rounded-lg text-slate-500 hover:text-slate-800';
         });
-        activeBtn.className = 'px-3 py-1 rounded-lg bg-white shadow-xs text-slate-800 font-bold';
+        activeBtn.className = 'px-2.5 py-1 rounded-lg bg-white shadow-xs text-slate-800 font-bold';
       }
 
       sortEarningsBtn.addEventListener('click', () => {
@@ -1483,12 +1817,12 @@
       });
       closeSponsorBtn.addEventListener('click', () => sponsorModal.classList.add('hidden'));
       sendSponsorEmailBtn.addEventListener('click', () => {
-        window.location.href = "mailto:sponsors@turdtally.internal?subject=Sponsoring%20The%20Throne%20Lounge&body=Hi%20TurdTally%20team,%20I'd%20like%20to%20sponsor%20captive%20high-income%20talent%20on%20company%20time!";
+        window.location.href = "mailto:sponsors@turdtally.internal?subject=Sponsoring%20The%20Throne%20Lounge&body=Hi%20TurdTally%20team,%20I'd%20like%20to%20sponsor%20captive%20talent%20on%20company%20time!";
       });
     }
 
     /* ==========================================================================
-       8. INITIALIZATION
+       9. INITIALIZATION
        ========================================================================== */
     window.addEventListener('DOMContentLoaded', () => {
       loadState();
@@ -1498,6 +1832,7 @@
       setupEventListeners();
       renderCategoryTabs();
       loadDispatches(activeCategory);
+      startPeerTicker();
     });
   </script>
 </body>
